@@ -1,0 +1,210 @@
+@startuml
+
+' hide the spot
+hide circle
+ 
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity User {
+    * id : serial
+    --
+    * name : varchar
+    * user_name : varchar
+    * salt : varchar
+    * algorithm : varchar
+    * password_hash : varchar
+    * deleted : boolean
+}
+
+entity Order {
+    * id : serial
+    --
+    * user_id : serial <<FK>>
+
+    * computer_id : serial <<FK>>
+    * mouse_id : serial <<FK>>
+    * keyboard_id : serial <<FK>>
+    * screen_id : serial <<FK>>
+
+    * total-price : integer
+
+    * canceled : boolean
+    * paid : boolean
+}
+
+entity Computer {
+    * id : serial
+    --
+    * category : varchar
+
+    * cpu_id : serial <<FK>>
+    * gpu_id : serial <<FK>>
+    * memory_id : serial <<FK>>
+    * motherboard_id : serial <<FK>>
+    * storage_id : serial <<FK>>
+    * psu_id : serial <<FK>>
+    * case_id : serial <<FK>>
+
+    * total-price : integer
+}
+
+entity CPU {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * frequency : integer
+    * cache : integer
+    * core_count : integer
+    * note : varchar
+    * price : integer
+}
+
+entity RAM_kit {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * type : varchar
+    * frequency : integer
+    * capacity : integer
+    * note : varchar
+    * price : integer
+}
+
+entity GPU {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * core-frequency : integer
+    * memory-frequency : integer
+    * memory-capacity : integer
+    * note : varchar
+    * price : integer
+}
+
+entity Motherboard {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * format : varchar
+    * socket-type : varchar
+    * supported-memory : varchar
+    * memory-capacity : integer
+    * note : varchar
+    * price : integer
+}
+
+entity Disk {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * interface : varchar
+    * capacity : integer
+    * bandwidth : integer
+    * note : varchar
+    * price : integer
+}
+
+entity PSU {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * power : integer
+    * note : varchar
+    * price : integer
+}
+
+entity Case {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * format : varchar
+    * note : varchar
+    * price : integer
+}
+
+entity Keyboard {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * interface : varchar
+    * note : varchar
+    * price : integer
+}
+
+entity Mouse {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * interface : varchar
+    * note : varchar
+    * price : integer
+}
+
+entity Screen {
+    * id : serial
+    --
+    * category : varchar
+
+    * manufacturer : varchar
+    * name : varchar
+    * interface : varchar
+    * note : varchar
+    * price : integer
+}
+
+entity Storage {
+    * id : serial
+    --
+    * computer_id : serial<<FK>>
+}
+
+entity Memory {
+    * id : serial
+    --
+    * computer_id : serial<<FK>>
+}
+
+User ||..o{ Order : has
+Order ||..|{ Computer : contains
+Order }o..o| Screen : contains
+Order }o..o| Mouse : contains
+Order }o..o| Keyboard : contains
+Computer }o..|| CPU : contains
+Computer }o..|| GPU : contains
+Computer ||..|{ Memory : contains
+Memory }o..|| RAM_kit : consists of
+Computer ||..|{ Storage : contains
+Storage }o..|| Disk : consists of
+Computer }o..|| Motherboard : contains
+Computer }o..|| PSU : contains
+Computer }o..|| Case : contains
+
+@enduml
