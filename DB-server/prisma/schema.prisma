@@ -30,4 +30,226 @@ model Order {
     
     user            User        @relation(fields: [userId], references: [id])
     userId          Int
+
+    screen          Screen      @relation(fields: [screenId], references: [id])
+    screenId        Int
+
+    mouse           Mouse       @relation(fields: [mouseId], references: [id])
+    mouseId         Int
+
+    keyboard        Keyboard    @relation(fields: [keyboardId], references: [id])
+    keyboardId      Int
+
+    computers       Computer[]
+}
+
+model Screen {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  interface       String      @db.VarChar(255)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  orders          Order[]
+}
+
+model Mouse {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  interface       String      @db.VarChar(255)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  orders          Order[]
+}
+
+model Keyboard {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  interface       String      @db.VarChar(255)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  orders          Order[]
+}
+
+model Computer {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  order           Order       @relation(fields: [orderId], references: [id])
+  orderId         Int
+
+  cpu             CPU         @relation(fields: [cpuId], references: [id])
+  cpuId           Int
+
+  motherboard     Motherboard @relation(fields: [mbId], references: [id])
+  mbId            Int
+
+  gpu             GPU         @relation(fields: [gpuId], references: [id])
+  gpuId           Int
+
+  psu             PSU         @relation(fields: [psuId], references: [id])
+  psuId           Int
+
+  case            Case         @relation(fields: [caseId], references: [id])
+  caseId          Int
+
+  storages        Storage[]
+
+  memories        Memory[]
+
+  totalPrice      Int         @default(0)
+}
+
+model CPU {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  frequency       Int         @default(0)
+  cache           Int         @default(0)
+  core_count      Int         @default(0)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  computers       Computer[]
+}
+
+model GPU {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  core_freq       Int         @default(0)
+  mem_freq        Int         @default(0)
+  mem_capacity    Int         @default(0)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  computers       Computer[]
+}
+
+model Motherboard {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  format          String      @db.VarChar(255)
+  socket_type     String      @db.VarChar(255)
+  supp_memory     String      @db.VarChar(255)
+  mem_capacity    Int         @default(0)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  computers       Computer[]
+}
+
+model PSU {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  power           Int         @default(0)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  computers       Computer[]
+}
+
+model Case {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  computers       Computer[]
+}
+
+model Storage {
+  id              Int         @default(autoincrement()) @id
+
+  disk            Disk         @relation(fields: [diskId], references: [id])
+  diskId          Int
+
+  computer        Computer     @relation(fields: [computerId], references: [id])
+  computerId      Int
+
+}
+
+model Disk {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  interface       String      @db.VarChar(255)
+  capacity        Int         @default(0)
+  bandwith        Int         @default(0)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  storages        Storage[]
+}
+
+model Memory {
+  id              Int         @default(autoincrement()) @id
+
+  ram             RAM         @relation(fields: [ramId], references: [id])
+  ramId           Int
+
+  computer        Computer     @relation(fields: [computerId], references: [id])
+  computerId      Int
+}
+
+model RAM {
+  id              Int         @default(autoincrement()) @id
+
+  category        String      @db.VarChar(255)
+
+  manufacturer    String      @db.VarChar(255)
+  name            String      @db.VarChar(255)
+  type            String      @db.VarChar(255)
+  frequency       Int         @default(0)
+  capacity        Int         @default(0)
+  note            String      @db.VarChar(255)
+
+  price           Int         @default(0)
+
+  memories        Memory[]  
 }
