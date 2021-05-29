@@ -13,10 +13,10 @@ generator client {
 model User {
     id              Int         @default(autoincrement()) @id
     name            String      @db.VarChar(255)
-    userName        String      @db.VarChar(255)
+    user_name       String      @db.VarChar(255)
     salt            String      @db.VarChar(255)
     algorithm       String      @db.VarChar(255)
-    passwordHash    String      @db.VarChar(255)
+    password_hash   String      @db.VarChar(255)
     deleted         Boolean     @default(false)
     orders          Order[]
 }
@@ -24,21 +24,21 @@ model User {
 model Order {
     id              Int         @default(autoincrement()) @id
 
-    totalPrice      Int         @default(0)
+    total_price      Int        @default(0)
     canceled        Boolean     @default(false)
     paid            Boolean     @default(false)
     
-    user            User        @relation(fields: [userId], references: [id])
-    userId          Int
+    user            User        @relation(fields: [user_id], references: [id])
+    user_id         Int
 
-    screen          Screen      @relation(fields: [screenId], references: [id])
-    screenId        Int
+    screen          Screen      @relation(fields: [screen_id], references: [id])
+    screen_id       Int
 
-    mouse           Mouse       @relation(fields: [mouseId], references: [id])
-    mouseId         Int
+    mouse           Mouse       @relation(fields: [mouse_id], references: [id])
+    mouse_id        Int
 
-    keyboard        Keyboard    @relation(fields: [keyboardId], references: [id])
-    keyboardId      Int
+    keyboard        Keyboard    @relation(fields: [keyboard_id], references: [id])
+    keyboard_id     Int
 
     computers       Computer[]
 }
@@ -93,29 +93,29 @@ model Computer {
 
   category        String      @db.VarChar(255)
 
-  order           Order       @relation(fields: [orderId], references: [id])
-  orderId         Int
+  order           Order       @relation(fields: [order_id], references: [id])
+  order_id        Int
 
-  cpu             CPU         @relation(fields: [cpuId], references: [id])
-  cpuId           Int
+  cpu             CPU         @relation(fields: [cpu_id], references: [id])
+  cpu_id          Int
 
-  motherboard     Motherboard @relation(fields: [mbId], references: [id])
-  mbId            Int
+  motherboard     Motherboard @relation(fields: [motherboard_id], references: [id])
+  motherboard_id  Int
 
-  gpu             GPU         @relation(fields: [gpuId], references: [id])
-  gpuId           Int
+  gpu             GPU         @relation(fields: [gpu_id], references: [id])
+  gpu_id          Int
 
-  psu             PSU         @relation(fields: [psuId], references: [id])
-  psuId           Int
+  psu             PSU         @relation(fields: [psu_id], references: [id])
+  psu_id          Int
 
-  case            Case         @relation(fields: [caseId], references: [id])
-  caseId          Int
+  case            Case        @relation(fields: [case_id], references: [id])
+  case_id         Int
 
   storages        Storage[]
 
   memories        Memory[]
 
-  totalPrice      Int         @default(0)
+  total_orice     Int         @default(0)
 }
 
 model CPU {
@@ -191,6 +191,7 @@ model Case {
   category        String      @db.VarChar(255)
 
   manufacturer    String      @db.VarChar(255)
+  format          String      @db.VarChar(255)
   name            String      @db.VarChar(255)
   note            String      @db.VarChar(255)
 
@@ -202,11 +203,11 @@ model Case {
 model Storage {
   id              Int         @default(autoincrement()) @id
 
-  disk            Disk         @relation(fields: [diskId], references: [id])
-  diskId          Int
+  disk            Disk         @relation(fields: [disk_id], references: [id])
+  disk_id         Int
 
-  computer        Computer     @relation(fields: [computerId], references: [id])
-  computerId      Int
+  computer        Computer     @relation(fields: [computer_id], references: [id])
+  computer_id     Int
 
 }
 
@@ -233,8 +234,8 @@ model Memory {
   ram             RAM         @relation(fields: [ramId], references: [id])
   ramId           Int
 
-  computer        Computer     @relation(fields: [computerId], references: [id])
-  computerId      Int
+  computer        Computer     @relation(fields: [computer_id], references: [id])
+  computer_id     Int
 }
 
 model RAM {
