@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Order" ALTER COLUMN "keyboard_id" DROP NOT NULL,
+ALTER COLUMN "mouse_id" DROP NOT NULL,
+ALTER COLUMN "screen_id" DROP NOT NULL;
