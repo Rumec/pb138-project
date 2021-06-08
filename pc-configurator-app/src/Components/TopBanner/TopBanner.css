@@ -1,0 +1,16 @@
+.top-banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    padding: 1rem;
+}
+
+.top-banner__header {
+    font-size: 3rem;
+}
+
+.top-banner__icon {
+    width: 3rem;
+    height: 3rem;
+}

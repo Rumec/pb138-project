@@ -1,0 +1,15 @@
+.top-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    padding: 1rem;
+}
+
+.top-menu__item {
+    margin: 0 1rem 0 1rem;
+}
+
+.vl {
+    border-left: 3px solid black;
+}
