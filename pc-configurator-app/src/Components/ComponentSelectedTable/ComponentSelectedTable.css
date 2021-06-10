@@ -1,0 +1,17 @@
+.component-table {
+    display: grid;
+    grid-template-columns: 8rem 8rem 8rem 8rem;
+    grid-gap: 1rem;
+
+    margin: 1rem;
+}
+
+.component-table__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.component-table__chosen {
+    width: 1rem;
+}
