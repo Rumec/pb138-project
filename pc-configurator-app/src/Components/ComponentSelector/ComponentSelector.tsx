@@ -3,6 +3,7 @@ import './ComputerSelector.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BEMHelper from 'react-bem-helper';
 import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelectedTable";
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 const classes = new BEMHelper({
     name: 'component-selector',
@@ -23,6 +24,7 @@ interface IPokusProps {
  * Picker for a single computer part
  * @param props - info about parts at stock
  */
+//TODO: naparsovat na reactstrap
 const DropdownPicker: React.FC<IPokusProps> = (props: IPokusProps) => {
     return (
         <select name={props.name} onChange={props.handleChange}>
