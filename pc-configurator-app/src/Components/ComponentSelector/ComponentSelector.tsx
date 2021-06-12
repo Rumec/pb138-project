@@ -2,9 +2,8 @@ import React from 'react';
 import './ComputerSelector.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BEMHelper from 'react-bem-helper';
-import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelectedTable";
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Table} from 'reactstrap';
-import { Badge } from 'reactstrap';
+import { ComponentSelectedTable } from "../ComponentSelectedTable/ComponentSelectedTable";
+import { Table, Badge } from 'reactstrap';
 
 const classes = new BEMHelper({
     name: 'component-selector',
@@ -285,31 +284,29 @@ export const ComponentSelector: React.FC = () => {
     }
 
     const componentPickers = Object.entries(data).map(([name, items]) => {
-        return <DropdownPicker name={name} items={items} handleChange={handleChange}/>
+        return <DropdownPicker name={name} items={items} handleChange={handleChange} />
     })
 
     return (
         <div {...classes()}>
-            <ComponentSelectedTable selectedComponents={selected}/>
-            {/*TODO: asi vlastní komponenta? */}         
+            <ComponentSelectedTable selectedComponents={selected} />
+            {/*TODO: asi vlastní komponenta? */}
             <Table>
                 <tbody>
-                    <tr>{componentPickers}<td></td></tr>
+                    {/*TODO sort pickerů*/}
+                    <tr>{componentPickers.sort()}<td></td></tr>
                     <tr>
                         {Object.entries(selected).map(([name, values]) => {
-                        return <td className="td-right"><h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4></td>
+                            return <td className="td-right"><h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4></td>
                         })}
                         <td className="td-right">
                             <h3 id="total">Total: <Badge color="primary">{Object.entries(selected).map(([name, values]) => {
-                            return values.price;
+                                return values.price;
                             }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
                         </td>
                     </tr>
                 </tbody>
             </Table>
-            <div style={{display: "flex", flexDirection: "column"}}>
-                
-            </div>
         </div>
     )
 };
