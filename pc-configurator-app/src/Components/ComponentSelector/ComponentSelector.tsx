@@ -297,9 +297,9 @@ export const ComponentSelector: React.FC = () => {
                     <tr>{componentPickers}<td></td></tr>
                     <tr>
                         {Object.entries(selected).map(([name, values]) => {
-                        return <td><h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4></td>
+                        return <td className="td-right"><h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4></td>
                         })}
-                        <td>
+                        <td className="td-right">
                             <h3 id="total">Total: <Badge color="primary">{Object.entries(selected).map(([name, values]) => {
                             return values.price;
                             }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
