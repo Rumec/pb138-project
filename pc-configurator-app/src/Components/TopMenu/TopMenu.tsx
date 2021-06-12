@@ -21,39 +21,39 @@ export const TopMenu: React.FC = () => {
                     <NavItem>
                         <NavLink href="#" class="navBar__text">Home</NavLink>
                     </NavItem>
-                    <span>|</span>
+                    <span className="navBar__text">|</span>
                     <NavItem>
-                        <NavLink href="#">Office</NavLink>
+                        <NavLink href="#" class="navBar__text" >Office</NavLink>
                     </NavItem>
-                    <span>|</span>
+                    <span className="navBar__text">|</span>
                     <NavItem>
-                        <NavLink href="#">Gaming</NavLink>
+                        <NavLink href="#" class="navBar__text">Gaming</NavLink>
                     </NavItem>
-                    <span>|</span>
+                    <span className="navBar__text">|</span>
                     <NavItem>
-                        <NavLink href="#">Working</NavLink>
+                        <NavLink href="#" class="navBar__text">Working</NavLink>
                     </NavItem>
-                    <span>|</span>
+                    <span className="navBar__text">|</span>
                     <NavItem>
-                        <NavLink href="#">Highend</NavLink>
+                        <NavLink href="#" class="navBar__text">Highend</NavLink>
                     </NavItem>
-                    <span>|</span>
+                    <span className="navBar__text">|</span>
                     <NavItem>
-                        <NavLink href="#">Own Configuration</NavLink>
+                        <NavLink href="#" class="navBar__text">Own Configuration</NavLink>
                     </NavItem>
                 </Nav>
             </NavbarBrand>
             <Nav navbar>
                 <NavItem>
-                    <NavLink href="#">Language</NavLink>
+                    <NavLink href="#" class="navBar__text">Language</NavLink>
                 </NavItem>
-                <span>|</span>
+                <span className="navBar__text">|</span>
                 <NavItem>
-                    <NavLink href="#">Login</NavLink>
+                    <NavLink href="#" class="navBar__text">Login</NavLink>
                 </NavItem>
-                <span>|</span>
+                <span className="navBar__text">|</span>
                 <NavItem>
-                    <NavLink href="#">Register</NavLink>
+                    <NavLink href="#" class="navBar__text">Register</NavLink>
                 </NavItem>
             </Nav>
         </Navbar>

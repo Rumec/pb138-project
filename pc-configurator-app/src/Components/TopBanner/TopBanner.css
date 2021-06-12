@@ -1,6 +1,6 @@
 :root{
     --background-blue: #007bff;
-    --background-grey: #313136;
+    --background-grey: #4d5257;
 }
 
 .top-banner {
@@ -9,8 +9,18 @@
     margin: 0;
 }
 
+.top-Banner__name{
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+    color: white;
+    font-weight: bold;
+    padding-left: 7rem;
+}
+
 .top-banner__header {
 }
 
 .top-banner__icon {
+
 }

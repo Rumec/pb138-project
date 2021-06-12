@@ -86,7 +86,7 @@ const ComponentSelectedTableItem: React.FC<IComponentSelectedTableItem> = (props
     return (
         <div {...classes('item')}>
             <img {...classes('picture')} src={props.img} alt={"Computer component "}/>
-            <div {...classes('text')}>{props.name} <img {...classes('chosen')} src={Chosen} style={{display: (props.chosen)? "" : "None"}} alt={"Component is chosen"}/> </div>
+            <div {...classes('text ')}>{props.name} <img {...classes('chosen')} src={Chosen} style={{display: (props.chosen)? "" : "None"}} alt={"Component is chosen"}/> </div>
         </div>
     )
 }
