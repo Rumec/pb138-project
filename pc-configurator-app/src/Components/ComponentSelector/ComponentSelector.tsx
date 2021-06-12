@@ -3,7 +3,7 @@ import './ComputerSelector.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BEMHelper from 'react-bem-helper';
 import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelectedTable";
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Table} from 'reactstrap';
 import { Badge } from 'reactstrap';
 
 const classes = new BEMHelper({
@@ -28,24 +28,26 @@ interface IPokusProps {
 //TODO: naparsovat na reactstrap
 const DropdownPicker: React.FC<IPokusProps> = (props: IPokusProps) => {
     return (
-        <select name={props.name} onChange={props.handleChange}>
-            {/* Default value */}
-            <option
-                key={0}
-                value={-1}
-            >
-                Select a {props.name}
-            </option>
-            {/* Values derived from props */}
-            {props.items.map(item => (
+        <td>
+            <select className="theme-style" name={props.name} onChange={props.handleChange}>
+                {/* Default value */}
                 <option
-                    key={item.id}
-                    value={JSON.stringify(item)}
+                    key={0}
+                    value={-1}
                 >
-                    {item.manufacturer} {item.name} ({item.price} €)
+                    Select a {props.name}
                 </option>
-            ))}
-        </select>
+                {/* Values derived from props */}
+                {props.items.map(item => (
+                    <option
+                        key={item.id}
+                        value={JSON.stringify(item)}
+                    >
+                        {item.manufacturer} {item.name} ({item.price} €)
+                    </option>
+                ))}
+            </select>
+        </td>
     )
 }
 
@@ -283,24 +285,30 @@ export const ComponentSelector: React.FC = () => {
     }
 
     const componentPickers = Object.entries(data).map(([name, items]) => {
-        return <div>{name}: <DropdownPicker name={name} items={items} handleChange={handleChange}/></div>
+        return <DropdownPicker name={name} items={items} handleChange={handleChange}/>
     })
 
     return (
         <div {...classes()}>
             <ComponentSelectedTable selectedComponents={selected}/>
-            {/*TODO: asi vlastní komponenta? */}
+            {/*TODO: asi vlastní komponenta? */}         
+            <Table>
+                <tbody>
+                    <tr>{componentPickers}<td></td></tr>
+                    <tr>
+                        {Object.entries(selected).map(([name, values]) => {
+                        return <td><h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4></td>
+                        })}
+                        <td>
+                            <h3 id="total">Total: <Badge color="primary">{Object.entries(selected).map(([name, values]) => {
+                            return values.price;
+                            }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
+                        </td>
+                    </tr>
+                </tbody>
+            </Table>
             <div style={{display: "flex", flexDirection: "column"}}>
-                {componentPickers}
-            </div>
-
-            <div style={{display: "flex", flexDirection: "column"}}>
-                {Object.entries(selected).map(([name, values]) => {
-                    return <h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4>
-                })}
-                <h3>Total: <Badge color="primary">{Object.entries(selected).map(([name, values]) => {
-                    return values.price;
-                }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
+                
             </div>
         </div>
     )
