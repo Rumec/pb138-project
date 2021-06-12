@@ -25,7 +25,23 @@ export const LoginPage: React.FC = () => {
 
     const logIn = () => {
         // Sends POST to backend and checks if can log in
-        console.log(loginInfo);
+        const loginData = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-User': 'God'},
+            body: JSON.stringify(loginInfo)
+        }
+
+        fetch('http://localhost:5000/api/login', loginData)
+            .then(async response => {
+                //const data = response.json();
+
+                console.log(response);
+            })
+            .catch(err => {
+                window.alert('The was an error!\n' + err);
+            });
     }
 
     return (
