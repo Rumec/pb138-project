@@ -34,12 +34,27 @@ const middleware = async (req: any, res: any, next: any) => {
     }
     // This is the was to pass data to functions following middleware
     res.locals.userId = +userId;
-    next(); //?
+    next(); //this means that the request handling is finished but it is passed to some next handlers (usually real REST API handlers)
 };
 
 // Used for parsing JSONs and applying middleware to whole server
-// NOTE: If you want to apply some funciton to all routes in API as a middleware, pass it here as an argument
+// NOTE: If you want to apply some function to all routes in API as a middleware, pass it here as an argument
 app.use(bodyParser.json(), middleware);
+
+
+
+/**
+ * #region REST API HTTP request handlers
+ * Parameter types:
+ * - path parameter e.g. /items/{category}
+ *   - path parameter: category
+ *   - access via req.params.pathParamName
+ * - query parameters e.g. /persons?name=searchedName&surname=searchedSurname
+ *   - query parameters: name, surname
+ *   - access via req.query.queryParamName
+ */
+
+
 
 /**
  * Loads all orders of current user or a specific number of last orders specified in a query.
@@ -73,20 +88,86 @@ app.get("/api/orders", async (req, res) => {
     res.send(JSON.stringify(orders));
 });
 
-//TEST return all components as json
-app.get("/api/components/class", async (req, res) => {
-    let components;
-    if(req.params.)
-    orders = await prisma..findMany({
-        where: {
-            user_id: res.locals.userId
-        },
-        orderBy: {
-            id: "desc"
-        },
-    });
-    res.send(JSON.stringify(orders));
+//get all components of given type
+app.get("/api/components/:componentType", async (req, res) => {
+    if(!req.params.componentType){
+        //path parameter is not provided
+        //https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express#answer-36507614
+        res.statusMessage = "Component type is not provided in the URL.";
+        res.status(400).end();
+    }
+    //ommitted tables: computer, keyboard, 
+
+    switch(req.params.componentType){
+        case "cpu":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "motherboard":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "ram":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "disk":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "gpu":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "psu":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "case":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "monitor":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "keyboard":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        case "mouse":
+            console.log("requested components: " + req.params.componentType);
+            break;
+        default:
+            res.statusMessage = "Invalid component type.";
+            res.status(400).end();
+
+    }
+    let items;
+    if (req.query.orderCount) {
+        items = await prisma.order.findMany({
+            where: {
+                user_id: res.locals.userId
+            },
+            orderBy: {
+                id: "desc"
+            },
+            take: +req.query.orderCount
+        });
+    } else {
+        items = await prisma.order.findMany({
+            where: {
+                user_id: res.locals.userId
+            },
+            orderBy: {
+                id: "desc"
+            },
+        });
+    }
+
+    res.send(JSON.stringify(items));
 });
+
+//matches GET at route /{id} where id is path parameter
+app.get('/:id', function(req, res) {
+    res.send('id: ' + req.params.id);
+});
+
+
+/**
+ * #endregion REST API HTTP request handlers
+ */
 
 
 
