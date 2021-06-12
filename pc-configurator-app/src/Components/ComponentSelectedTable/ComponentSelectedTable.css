@@ -1,17 +1,42 @@
 .component-table {
     display: grid;
     grid-template-columns: 8rem 8rem 8rem 8rem;
+    grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 1rem;
 
-    margin: 1rem;
+    align-items: center;
+    justify-content: center;
+
+    margin: 3rem 1rem 3rem 1rem;
+    padding: 1rem;
+    
+    width: 50%;
 }
 
 .component-table__item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-color: #C4C4C4;
+    padding: 1rem;
 }
 
 .component-table__chosen {
     width: 1rem;
+    
+}
+
+.component-table__picture{
+    display: auto;
+    transition: all 0.5s ease;
+}
+
+.component-table__picture:hover{
+    filter: drop-shadow(0 0 1rem #007bff );
+    transform: scale(1.2);
+}
+
+.component-table__text{
+    padding-top: 0.8rem;
 }

@@ -1,4 +1,12 @@
+:root{
+    --background-blue: #007bff;
+    --background-grey: #313136;
+}
+
 .top-banner {
+    background: linear-gradient(90deg, var(--background-blue) 18%, var(--background-grey) 39%);
+    padding: 0;
+    margin: 0;
 }
 
 .top-banner__header {

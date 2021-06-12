@@ -1,2 +1,7 @@
+:root{
+    --background-darkblue: #007bff;
+}
+
 .top-menu {
+    background-color: var(--background-darkblue);
 }

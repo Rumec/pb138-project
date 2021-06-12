@@ -20,7 +20,7 @@ const classes = new BEMHelper({
 
 export const TopBanner: React.FC<ITopBannerProps> = (props: ITopBannerProps) => {
     return (
-        <Navbar {...classes()} color="light" light expand="md">
+        <Navbar {...classes()}  light expand="md">
             <NavbarBrand className="mr-auto">
                     <h1 className="display-3">{props.header}</h1>
                 </NavbarBrand>
