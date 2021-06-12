@@ -8,7 +8,7 @@ const port: number = 3000;
 const app = express();
 
 /**
- * Middleaware function for checking if user specified in header exists.
+ * Middleware function for checking if user specified in header exists.
  *
  * NOTE: Počítám s tím, že v tomto předmětu, stejně jako u cvičení, nebudeme používat autentizaci a budeme používat jen
  *       X-User header
@@ -34,7 +34,7 @@ const middleware = async (req: any, res: any, next: any) => {
     }
     // This is the was to pass data to functions following middleware
     res.locals.userId = +userId;
-    next();
+    next(); //?
 };
 
 // Used for parsing JSONs and applying middleware to whole server
@@ -46,6 +46,7 @@ app.use(bodyParser.json(), middleware);
  *
  * Query format: "/api/orders?orderCount={count}
  */
+//declares GET request handler on route /api/orders
 app.get("/api/orders", async (req, res) => {
     let orders;
     if (req.query.orderCount) {
@@ -72,13 +73,32 @@ app.get("/api/orders", async (req, res) => {
     res.send(JSON.stringify(orders));
 });
 
+//TEST return all components as json
+app.get("/api/components/class", async (req, res) => {
+    let components;
+    if(req.params.)
+    orders = await prisma..findMany({
+        where: {
+            user_id: res.locals.userId
+        },
+        orderBy: {
+            id: "desc"
+        },
+    });
+    res.send(JSON.stringify(orders));
+});
+
+
+
+//server application entry point
 async function main() {
-    app.listen(port);
+    app.listen(port); //runs the application which is created in variable "app" when the class Index is initialized
     console.log(`PC-configurator-backend is listening on port ${port}`);
 }
 
+
 main().catch(e => {
-    throw e;
+    throw e; //exception handler for the whole application
 }).finally(async () => {
     await prisma.$disconnect();
 })
