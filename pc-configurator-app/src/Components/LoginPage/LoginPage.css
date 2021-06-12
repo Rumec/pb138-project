@@ -1,0 +1,19 @@
+.login {
+    padding: 2rem;
+    justify-content: center; /* y-axis */
+    align-items: center; /* x-axis */
+}
+
+.login__line {
+    margin: 1rem 0 0 0;
+    justify-content: center;
+}
+
+.login__inputgroup {
+    width: 30%;
+}
+
+.login__inputgroup-text {
+    min-width: 8rem;
+    justify-content: center;
+}
