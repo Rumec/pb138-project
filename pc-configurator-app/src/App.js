@@ -3,17 +3,31 @@ import {TopMenu} from "./Components/TopMenu/TopMenu";
 import {TopBanner} from "./Components/TopBanner/TopBanner";
 import {ComputerTypeChooser} from "./Components/ComputerTypeChooser/ComputerTypeChooser";
 import {ComponentSelector} from "./Components/ComponentSelector/ComponentSelector";
+import { Container, Row, Col } from 'reactstrap';
 
 function App() {
     return (
-        <div>
-            <TopMenu/>
-            <TopBanner header={"PC configurator"}/>
+        <Container fluid={true}>
+            <Row>
+                <Col>
+                    <TopMenu/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <TopBanner header={"PC configurator"}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <ComponentSelector/>
+                </Col>
+            </Row>
             {/*
             <ComputerTypeChooser/>
             */}
-            <ComponentSelector />
-        </div>
+           
+        </Container>
     );
 }
 

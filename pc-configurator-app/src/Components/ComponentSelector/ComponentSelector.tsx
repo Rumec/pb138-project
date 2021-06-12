@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import BEMHelper from 'react-bem-helper';
 import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelectedTable";
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import { Badge } from 'reactstrap';
 
 const classes = new BEMHelper({
     name: 'component-selector',
@@ -295,11 +296,11 @@ export const ComponentSelector: React.FC = () => {
 
             <div style={{display: "flex", flexDirection: "column"}}>
                 {Object.entries(selected).map(([name, values]) => {
-                    return <div>{name} costs {values.price} €</div>
+                    return <h4>{name} costs <Badge color="secondary">{values.price} €</Badge></h4>
                 })}
-                <div>Total: {Object.entries(selected).map(([name, values]) => {
+                <h3>Total: <Badge color="primary">{Object.entries(selected).map(([name, values]) => {
                     return values.price;
-                }).reduce((cumulate, val) => cumulate + val, 0)} €</div>
+                }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
             </div>
         </div>
     )
