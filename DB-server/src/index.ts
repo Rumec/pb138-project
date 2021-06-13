@@ -1,8 +1,9 @@
 import {PrismaClient} from '@prisma/client';
 import express from "express";
 import bodyParser from "body-parser";
-import * as componentLoader from "./dataAccess/componentsLoader";
 import * as components from "./controllers/componentsController";
+import * as orders from "./controllers/ordersController";
+
 
 
 const prisma = new PrismaClient();
@@ -46,6 +47,9 @@ app.use(bodyParser.json(), middleware);
 
 
 
+
+
+
 /**
  * #region REST API HTTP request handlers
  * Parameter types:
@@ -58,38 +62,14 @@ app.use(bodyParser.json(), middleware);
  */
 
 
-
 /**
- * Loads all orders of current user or only specific number of latest orders if query parameter orderCount is provided.
+ * Loads all orders of current user 
+ * If query parameter "orderCount" is provided, only orderCount latest orders are loaded.
  *
- * Query format: /api/orders?orderCount={count}
+ * Handles GET method on route: /api/orders?orderCount={count}
  * 
  */
-app.get("/api/orders", async (req, res) => {
-    let orders;
-    if (req.query.orderCount) {
-        orders = await prisma.order.findMany({
-            where: {
-                user_id: res.locals.userId
-            },
-            orderBy: {
-                id: "desc"
-            },
-            take: +req.query.orderCount //+ = convert to number
-        });
-    } else {
-        orders = await prisma.order.findMany({
-            where: {
-                user_id: res.locals.userId
-            },
-            orderBy: {
-                id: "desc"
-            },
-        });
-    }
-
-    res.send(JSON.stringify(orders));
-});
+app.get("/api/orders",  async (req, res) => orders.get(prisma, req, res));
 
 /**
  * Retrieves components of all types by category
@@ -97,14 +77,14 @@ app.get("/api/orders", async (req, res) => {
  * Category is required
  * Handles GET method on route: "/api/components/{category}
  */
-app.get("/api/components/:category", async (req, res) => components.getComponentsByCategory(prisma, req, res));
+app.get("/api/components/:category", async (req, res) => components.getByCategory(prisma, req, res));
 
 /**
  * Retrieves components of all types
  * Note: ommitted db tables: computer, memory, storage 
  * Handles HTTP GET method on route: "/api/components
  */
- app.get("/api/components", async (req, res) => components.getComponents(prisma, req, res));
+ app.get("/api/components", async (req, res) => components.get(prisma, req, res));
 
 
 /**

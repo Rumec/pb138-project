@@ -7,7 +7,7 @@ import * as componentLoader from "./../dataAccess/componentsLoader";
  * Note: ommitted db tables: computer, memory, storage 
  * Handles HTTP GET method on route: "/api/components
  */
-export async function getComponents(db: PrismaClient, req: express.Request, res: express.Response) : Promise<any>
+export async function get(db: PrismaClient, req: express.Request, res: express.Response) : Promise<any>
 {
     let cpus = await componentLoader.getCpus(db);
     let motherboards = await componentLoader.getMotherboards(db);
@@ -20,17 +20,18 @@ export async function getComponents(db: PrismaClient, req: express.Request, res:
     let keyboards = await componentLoader.getKeyboards(db);
     let mouses = await componentLoader.getMouses(db);
 
+    //cpus instead of cpu to match the format required by frontend components
     let components = {
-        "cpus": cpus,
-        "motherboards" : motherboards,
-        "rams" : rams,
-        "disks" : disks,
-        "gpus" : gpus,
-        "psus" : psus,
-        "cases" : cases,
-        "monitors" : monitors,
-        "keyboards" : keyboards,
-        "mouses" : mouses
+        "cpu": cpus,
+        "motherboard" : motherboards,
+        "ram" : rams,
+        "disk" : disks,
+        "gpu" : gpus,
+        "psu" : psus,
+        "case" : cases,
+        "monitor" : monitors,
+        "keyboard" : keyboards,
+        "mouse" : mouses
     };
     
     res.send(JSON.stringify(components));
@@ -42,7 +43,7 @@ export async function getComponents(db: PrismaClient, req: express.Request, res:
  * Category is required
  * Handles HTTP GET method on route: "/api/components/{category}
  */
-export async function getComponentsByCategory(db: PrismaClient, req: express.Request, res: express.Response) : Promise<any>
+export async function getByCategory(db: PrismaClient, req: express.Request, res: express.Response) : Promise<any>
 {
     let category = req.params.category;
     if(!category){
@@ -63,17 +64,18 @@ export async function getComponentsByCategory(db: PrismaClient, req: express.Req
     let keyboards = await componentLoader.getKeyboardsByCategory(db, category as string);
     let mouses = await componentLoader.getMousesByCategory(db, category as string);
 
-    let components = {
-        "cpus": cpus,
-        "motherboards" : motherboards,
-        "rams" : rams,
-        "disks" : disks,
-        "gpus" : gpus,
-        "psus" : psus,
-        "cases" : cases,
-        "monitors" : monitors,
-        "keyboards" : keyboards,
-        "mouses" : mouses
+     //cpus instead of cpu to match the format required by frontend components
+     let components = {
+        "cpu": cpus,
+        "motherboard" : motherboards,
+        "ram" : rams,
+        "disk" : disks,
+        "gpu" : gpus,
+        "psu" : psus,
+        "case" : cases,
+        "monitor" : monitors,
+        "keyboard" : keyboards,
+        "mouse" : mouses
     };
     
     res.send(JSON.stringify(components));
