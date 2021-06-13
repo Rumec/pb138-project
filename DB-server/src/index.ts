@@ -58,9 +58,9 @@ app.use(bodyParser.json(), middleware);
 
 
 /**
- * Loads all orders of current user or a specific number of last orders specified in a query.
+ * Loads all orders of current user or only specific number of latest orders if query parameter orderCount is provided.
  *
- * Query format: "/api/orders?orderCount={count}
+ * Query format: /api/orders?orderCount={count}
  * 
  */
 app.get("/api/orders", async (req, res) => {
@@ -188,10 +188,8 @@ app.get("/api/components/:componentType", async (req, res) => {
     res.send(JSON.stringify(components));
 });
 
-//matches GET at route /{id} where id is path parameter
-app.get('/:id', function(req, res) {
-    res.send('id: ' + req.params.id);
-});
+
+
 
 
 /**
