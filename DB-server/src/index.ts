@@ -98,9 +98,13 @@ app.get("/api/components/:componentType", async (req, res) => {
     }
     //ommitted tables: computer, keyboard, 
 
+    let components;
     switch(req.params.componentType){
         case "cpu":
-            console.log("requested components: " + req.params.componentType);
+            if(req.query.category){
+            } else {
+
+            }
             break;
         case "motherboard":
             console.log("requested components: " + req.params.componentType);
@@ -132,8 +136,9 @@ app.get("/api/components/:componentType", async (req, res) => {
         default:
             res.statusMessage = "Invalid component type.";
             res.status(400).end();
-
     }
+
+
     let items;
     if (req.query.orderCount) {
         items = await prisma.order.findMany({
