@@ -1,6 +1,7 @@
 import {PrismaClient} from '@prisma/client';
 import express from "express";
 import bodyParser from "body-parser";
+import * as componentLoader from "./dataAccess/componentsLoader";
 
 const prisma = new PrismaClient();
 
@@ -60,8 +61,8 @@ app.use(bodyParser.json(), middleware);
  * Loads all orders of current user or a specific number of last orders specified in a query.
  *
  * Query format: "/api/orders?orderCount={count}
+ * 
  */
-//declares GET request handler on route /api/orders
 app.get("/api/orders", async (req, res) => {
     let orders;
     if (req.query.orderCount) {
@@ -72,7 +73,7 @@ app.get("/api/orders", async (req, res) => {
             orderBy: {
                 id: "desc"
             },
-            take: +req.query.orderCount
+            take: +req.query.orderCount //+ = convert to number
         });
     } else {
         orders = await prisma.order.findMany({
@@ -88,80 +89,101 @@ app.get("/api/orders", async (req, res) => {
     res.send(JSON.stringify(orders));
 });
 
-//get all components of given type
+/**
+ * Retrieves all components of given type
+ * If query parameter "category" is provided, filters components of given type by category
+ * Handles GET method on route: "/api/components/{componentType}?category={category}
+ */
 app.get("/api/components/:componentType", async (req, res) => {
-    if(!req.params.componentType){
+    let componentType = req.params.componentType;
+    if(!componentType){
         //path parameter is not provided
         //https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express#answer-36507614
         res.statusMessage = "Component type is not provided in the URL.";
         res.status(400).end();
     }
-    //ommitted tables: computer, keyboard, 
+    
+    //ommitted db tables: computer, memory, storage 
 
     let components;
+    let category = req.query.category;
     switch(req.params.componentType){
         case "cpu":
-            if(req.query.category){
+            if(category){
+                components = componentLoader.getCpusByCategory(prisma, category as string);
             } else {
-
+                components = componentLoader.getCpus(prisma);
             }
             break;
         case "motherboard":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getMotherboardsByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getMotherboards(prisma);
+            }
             break;
         case "ram":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getRAMsByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getRAMs(prisma);
+            }
             break;
         case "disk":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getDisksByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getDisks(prisma);
+            }
             break;
         case "gpu":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getGPUsByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getGPUs(prisma);
+            }
             break;
         case "psu":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getPSUsByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getPSUs(prisma);
+            }
             break;
         case "case":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getCasesByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getCases(prisma);
+            }
             break;
         case "monitor":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getMonitorsByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getMonitors(prisma);
+            }
             break;
         case "keyboard":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getKeyboardsByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getKeyboards(prisma);
+            }
             break;
         case "mouse":
-            console.log("requested components: " + req.params.componentType);
+            if(category){
+                components = componentLoader.getMousesByCategory(prisma, category as string);
+            } else {
+                components = componentLoader.getMouses(prisma);
+            }
             break;
         default:
             res.statusMessage = "Invalid component type.";
             res.status(400).end();
     }
-
-
-    let items;
-    if (req.query.orderCount) {
-        items = await prisma.order.findMany({
-            where: {
-                user_id: res.locals.userId
-            },
-            orderBy: {
-                id: "desc"
-            },
-            take: +req.query.orderCount
-        });
-    } else {
-        items = await prisma.order.findMany({
-            where: {
-                user_id: res.locals.userId
-            },
-            orderBy: {
-                id: "desc"
-            },
-        });
-    }
-
-    res.send(JSON.stringify(items));
+    
+    res.send(JSON.stringify(components));
 });
 
 //matches GET at route /{id} where id is path parameter
