@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { exception } from 'console';
 import { ram,cpu,mother,psu, gpu, cse, disk, user, keyboard, mouse, screen } from "../components/all"
 const prisma = new PrismaClient();
 
