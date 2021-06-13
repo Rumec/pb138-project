@@ -2,6 +2,8 @@ import {PrismaClient} from '@prisma/client';
 import express from "express";
 import bodyParser from "body-parser";
 import * as componentLoader from "./dataAccess/componentsLoader";
+import * as components from "./controllers/componentsController";
+
 
 const prisma = new PrismaClient();
 
@@ -95,78 +97,14 @@ app.get("/api/orders", async (req, res) => {
  * Category is required
  * Handles GET method on route: "/api/components/{category}
  */
-app.get("/api/components/:category", async (req, res) => {
-    let category = req.params.category;
-    if(!category){
-        //path parameter is not provided
-        //https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express#answer-36507614
-        res.statusMessage = "Component category is not defined in the URL.";
-        res.status(400).end();
-        return;
-    }
-    let cpus = await componentLoader.getCpusByCategory(prisma, category as string);
-    let motherboards = await componentLoader.getMotherboardsByCategory(prisma, category as string);
-    let rams = await componentLoader.getRAMsByCategory(prisma, category as string);
-    let disks =  await componentLoader.getDisksByCategory(prisma, category as string);
-    let gpus = await componentLoader.getGPUsByCategory(prisma, category as string);
-    let psus = await componentLoader.getPSUsByCategory(prisma, category as string);
-    let cases = await componentLoader.getCasesByCategory(prisma, category as string);
-    let monitors = await componentLoader.getMonitorsByCategory(prisma, category as string);
-    let keyboards = await componentLoader.getKeyboardsByCategory(prisma, category as string);
-    let mouses = await componentLoader.getMousesByCategory(prisma, category as string);
-
-    let components = {
-        "cpus": cpus,
-        "motherboards" : motherboards,
-        "rams" : rams,
-        "disks" : disks,
-        "gpus" : gpus,
-        "psus" : psus,
-        "cases" : cases,
-        "monitors" : monitors,
-        "keyboards" : keyboards,
-        "mouses" : mouses
-    };
-    
-    res.send(JSON.stringify(components));
-});
+app.get("/api/components/:category", async (req, res) => components.getComponentsByCategory(prisma, req, res));
 
 /**
- * Retrieves components of all types by category
+ * Retrieves components of all types
  * Note: ommitted db tables: computer, memory, storage 
- * Category is required
- * Handles GET method on route: "/api/components/{category}
+ * Handles HTTP GET method on route: "/api/components
  */
- app.get("/api/components", async (req, res) => {
-    let cpus = await componentLoader.getCpus(prisma);
-    let motherboards = await componentLoader.getMotherboards(prisma);
-    let rams = await componentLoader.getRAMs(prisma);
-    let disks =  await componentLoader.getDisks(prisma);
-    let gpus = await componentLoader.getGPUs(prisma);
-    let psus = await componentLoader.getPSUs(prisma);
-    let cases = await componentLoader.getCases(prisma);
-    let monitors = await componentLoader.getMonitors(prisma);
-    let keyboards = await componentLoader.getKeyboards(prisma);
-    let mouses = await componentLoader.getMouses(prisma);
-
-    let components = {
-        "cpus": cpus,
-        "motherboards" : motherboards,
-        "rams" : rams,
-        "disks" : disks,
-        "gpus" : gpus,
-        "psus" : psus,
-        "cases" : cases,
-        "monitors" : monitors,
-        "keyboards" : keyboards,
-        "mouses" : mouses
-    };
-    
-    res.send(JSON.stringify(components));
-});
-
-
-
+ app.get("/api/components", async (req, res) => components.getComponents(prisma, req, res));
 
 
 /**
