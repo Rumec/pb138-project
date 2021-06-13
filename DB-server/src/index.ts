@@ -90,100 +90,77 @@ app.get("/api/orders", async (req, res) => {
 });
 
 /**
- * Retrieves all components of given type
- * If query parameter "category" is provided, filters components of given type by category
- * Handles GET method on route: "/api/components/{componentType}?category={category}
+ * Retrieves components of all types by category
+ * Note: ommitted db tables: computer, memory, storage 
+ * Category is required
+ * Handles GET method on route: "/api/components/{category}
  */
-app.get("/api/components/:componentType", async (req, res) => {
-    let componentType = req.params.componentType;
-    if(!componentType){
+app.get("/api/components/:category", async (req, res) => {
+    let category = req.params.category;
+    if(!category){
         //path parameter is not provided
         //https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express#answer-36507614
-        res.statusMessage = "Component type is not provided in the URL.";
+        res.statusMessage = "Component category is not defined in the URL.";
         res.status(400).end();
         return;
     }
-    
-    //ommitted db tables: computer, memory, storage 
+    let cpus = await componentLoader.getCpusByCategory(prisma, category as string);
+    let motherboards = await componentLoader.getMotherboardsByCategory(prisma, category as string);
+    let rams = await componentLoader.getRAMsByCategory(prisma, category as string);
+    let disks =  await componentLoader.getDisksByCategory(prisma, category as string);
+    let gpus = await componentLoader.getGPUsByCategory(prisma, category as string);
+    let psus = await componentLoader.getPSUsByCategory(prisma, category as string);
+    let cases = await componentLoader.getCasesByCategory(prisma, category as string);
+    let monitors = await componentLoader.getMonitorsByCategory(prisma, category as string);
+    let keyboards = await componentLoader.getKeyboardsByCategory(prisma, category as string);
+    let mouses = await componentLoader.getMousesByCategory(prisma, category as string);
 
-    let components;
-    let category = req.query.category;
-    switch(req.params.componentType){
-        case "cpu":
-            if(category){
-                components = await componentLoader.getCpusByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getCpus(prisma);
-            }
-            break;
-        case "motherboard":
-            if(category){
-                components = await componentLoader.getMotherboardsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getMotherboards(prisma);
-            }
-            break;
-        case "ram":
-            if(category){
-                components = await componentLoader.getRAMsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getRAMs(prisma);
-            }
-            break;
-        case "disk":
-            if(category){
-                components = await componentLoader.getDisksByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getDisks(prisma);
-            }
-            break;
-        case "gpu":
-            if(category){
-                components = await componentLoader.getGPUsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getGPUs(prisma);
-            }
-            break;
-        case "psu":
-            if(category){
-                components = await componentLoader.getPSUsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getPSUs(prisma);
-            }
-            break;
-        case "case":
-            if(category){
-                components = await componentLoader.getCasesByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getCases(prisma);
-            }
-            break;
-        case "monitor":
-            if(category){
-                components = await componentLoader.getMonitorsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getMonitors(prisma);
-            }
-            break;
-        case "keyboard":
-            if(category){
-                components = await componentLoader.getKeyboardsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getKeyboards(prisma);
-            }
-            break;
-        case "mouse":
-            if(category){
-                components = await componentLoader.getMousesByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getMouses(prisma);
-            }
-            break;
-        default:
-            res.statusMessage = "Invalid component type.";
-            res.status(400).end();
-            return;
-    }
+    let components = {
+        "cpus": cpus,
+        "motherboards" : motherboards,
+        "rams" : rams,
+        "disks" : disks,
+        "gpus" : gpus,
+        "psus" : psus,
+        "cases" : cases,
+        "monitors" : monitors,
+        "keyboards" : keyboards,
+        "mouses" : mouses
+    };
+    
+    res.send(JSON.stringify(components));
+});
+
+/**
+ * Retrieves components of all types by category
+ * Note: ommitted db tables: computer, memory, storage 
+ * Category is required
+ * Handles GET method on route: "/api/components/{category}
+ */
+ app.get("/api/components", async (req, res) => {
+    let cpus = await componentLoader.getCpus(prisma);
+    let motherboards = await componentLoader.getMotherboards(prisma);
+    let rams = await componentLoader.getRAMs(prisma);
+    let disks =  await componentLoader.getDisks(prisma);
+    let gpus = await componentLoader.getGPUs(prisma);
+    let psus = await componentLoader.getPSUs(prisma);
+    let cases = await componentLoader.getCases(prisma);
+    let monitors = await componentLoader.getMonitors(prisma);
+    let keyboards = await componentLoader.getKeyboards(prisma);
+    let mouses = await componentLoader.getMouses(prisma);
+
+    let components = {
+        "cpus": cpus,
+        "motherboards" : motherboards,
+        "rams" : rams,
+        "disks" : disks,
+        "gpus" : gpus,
+        "psus" : psus,
+        "cases" : cases,
+        "monitors" : monitors,
+        "keyboards" : keyboards,
+        "mouses" : mouses
+    };
     
     res.send(JSON.stringify(components));
 });
