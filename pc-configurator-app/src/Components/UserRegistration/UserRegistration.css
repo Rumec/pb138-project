@@ -1,0 +1,19 @@
+.registration {
+    padding: 2rem;
+    justify-content: center; /* y-axis */
+    align-items: center; /* x-axis */
+}
+
+.registration__line {
+    margin: 1rem 0 0 0;
+    justify-content: center;
+}
+
+.registration__inputgroup {
+    width: 30%;
+}
+
+.registration__inputgroup-text {
+    min-width: 10rem;
+    justify-content: center;
+}

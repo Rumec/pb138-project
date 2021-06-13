@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import './LoginPage.css';
+import './UserRegistration.css';
 import BEMHelper from 'react-bem-helper';
 import {Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row} from "reactstrap";
 import {useRecoilState} from "recoil";
@@ -7,22 +7,21 @@ import {userState} from '../../store/atoms';
 
 
 const classes = new BEMHelper({
-    name: 'login',
+    name: 'registration',
 });
 
 
-export const LoginPage: React.FC = () => {
+export const UserRegistration: React.FC = () => {
 
-    const [loginInfo, setLoginInfo] = useState({
+    const [registrationInfo, setRegistrationInfo] = useState({
         login: "",
-        password: ""
+        password: "",
+        passwordConfirm: ""
     });
 
-    const [userInformation, setUserInformation] = useRecoilState(userState);
-
     const handleChange = (event: any) => {
-        setLoginInfo({
-            ...loginInfo,
+        setRegistrationInfo({
+            ...registrationInfo,
             [event.target.name]: event.target.value
         });
     }
@@ -30,33 +29,25 @@ export const LoginPage: React.FC = () => {
     /**
      * Sets user information as global state (using recoil) - see ../../store/atoms.ts
      */
-    const logIn = () => {
+    const registration = () => {
+        // Checking if passwords are the same
+        if (registrationInfo.password !== registrationInfo.passwordConfirm) {
+            console.log(`${registrationInfo.password}, ${registrationInfo.passwordConfirm}`)
+            window.alert("Passwords do not match!");
+            return;
+        }
         // Sends POST to backend and checks if can log in
-        const loginData = {
+        const registrationData = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-User': 'God'
             },
-            body: JSON.stringify(loginInfo)
+            body: JSON.stringify(registrationInfo)
         }
 
-        fetch('http://localhost:5000/api/login', loginData)
-            .then(async response => {
-                if (response.status !== 200) {
-                    window.alert("Wrong user name or password");
-                    return;
-                }
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const userInformationFetched = isJson && await response.json();
-
-                if (userInformation.isLoading) {
-                    // Setting global state
-                    setUserInformation({isLoading: false, data: userInformationFetched});
-                }
-            })
+        fetch('http://localhost:5000/api/user/registration', registrationData)
             .catch(err => {
-                window.alert('The was an error!\n' + err);
+                window.alert('There was an error!\n' + err);
             });
     }
 
@@ -92,10 +83,25 @@ export const LoginPage: React.FC = () => {
                 </InputGroup>
             </Row>
             <Row {...classes('line')}>
+                <InputGroup {...classes('inputgroup')}>
+                    <InputGroupAddon addonType={'prepend'}>
+                        <InputGroupText {...classes('inputgroup-text')}>
+                            Confirm password:
+                        </InputGroupText>
+                    </InputGroupAddon>
+                    <Input
+                        name={'passwordConfirm'}
+                        type={'password'}
+                        placeholder={'Confirm your password'}
+                        onChange={handleChange}
+                    />
+                </InputGroup>
+            </Row>
+            <Row {...classes('line')}>
                 <Button {...classes('inputgroup')}
-                        onClick={logIn}
+                        onClick={registration}
                 >
-                    Log in
+                    Sign up
                 </Button>
             </Row>
         </Col>
