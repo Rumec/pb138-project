@@ -1,103 +1,105 @@
 import {PrismaClient} from '@prisma/client';
 
-export async function getCpus(db : PrismaClient) 
+//"return await" still returns a promise which is not the final result, why?
+
+export async function getCpus(db : PrismaClient) : Promise<any[]>
 {
-    return await db.cPU.findMany(); 
+    return db.cPU.findMany(); 
 }
 
-export async function getCpusByCategory(db : PrismaClient, category: string)
+export async function getCpusByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.cPU.findMany({ where: { category: category } });
+    return db.cPU.findMany({ where: { category: category } });
 }
 
-export async function getMotherboards(db : PrismaClient)
+export async function getMotherboards(db : PrismaClient) : Promise<any[]>
 {
-    return await db.motherboard.findMany();
+    return db.motherboard.findMany();
 }
 
-export async function getMotherboardsByCategory(db : PrismaClient, category: string)
+export async function getMotherboardsByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.motherboard.findMany({ where: { category: category } });
+    return db.motherboard.findMany({ where: { category: category } });
 }
 
-export async function getRAMs(db : PrismaClient)
+export async function getRAMs(db : PrismaClient) : Promise<any[]>
 {
-    return await db.rAM.findMany();
+    return db.rAM.findMany();
 }
 
-export async function getRAMsByCategory(db : PrismaClient, category: string)
+export async function getRAMsByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.rAM.findMany({ where: { category: category } });
+    return db.rAM.findMany({ where: { category: category } });
 }
 
-export async function getDisks(db : PrismaClient)
+export async function getDisks(db : PrismaClient) : Promise<any[]>
 {
-    return await db.disk.findMany();
+    return db.disk.findMany();
 }
 
-export async function getDisksByCategory(db : PrismaClient, category: string)
+export async function getDisksByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.disk.findMany({ where: { category: category } });
+    return db.disk.findMany({ where: { category: category } });
 }
 
-export async function getGPUs(db : PrismaClient)
+export async function getGPUs(db : PrismaClient) : Promise<any[]>
 {
-    return await db.gPU.findMany();
+    return db.gPU.findMany();
 }
 
-export async function getGPUsByCategory(db : PrismaClient, category: string)
+export async function getGPUsByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.gPU.findMany({ where: { category: category } });
+    return db.gPU.findMany({ where: { category: category } });
 }
 
-export async function getPSUs(db : PrismaClient)
+export async function getPSUs(db : PrismaClient) : Promise<any[]>
 {
-    return await db.pSU.findMany();
+    return db.pSU.findMany();
 }
 
-export async function getPSUsByCategory(db : PrismaClient, category: string)
+export async function getPSUsByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.pSU.findMany({ where: { category: category } });
+    return db.pSU.findMany({ where: { category: category } });
 }
 
-export async function getCases(db : PrismaClient)
+export async function getCases(db : PrismaClient) : Promise<any[]>
 {
-    return await db.case.findMany();
+    return db.case.findMany();
 }
 
-export async function getCasesByCategory(db : PrismaClient, category: string)
+export async function getCasesByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.case.findMany({ where: { category: category } });
+    return db.case.findMany({ where: { category: category } });
 }
 
-export async function getMonitors(db : PrismaClient)
+export async function getMonitors(db : PrismaClient) : Promise<any[]>
 {
-    return await db.screen.findMany();
+    return db.screen.findMany();
 }
 
-export async function getMonitorsByCategory(db : PrismaClient, category: string)
+export async function getMonitorsByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.screen.findMany({ where: { category: category } });
+    return db.screen.findMany({ where: { category: category } });
 }
 
 
-export async function getKeyboards(db : PrismaClient)
+export async function getKeyboards(db : PrismaClient) : Promise<any[]>
 {
-    return await db.keyboard.findMany();
+    return db.keyboard.findMany();
 }
 
-export async function getKeyboardsByCategory(db : PrismaClient, category: string)
+export async function getKeyboardsByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.keyboard.findMany({ where: { category: category } });
+    return db.keyboard.findMany({ where: { category: category } });
 }
 
-export async function getMouses(db : PrismaClient)
+export async function getMouses(db : PrismaClient) : Promise<any[]>
 { 
-    return await db.mouse.findMany();
+    return db.mouse.findMany();
 }
 
-export async function getMousesByCategory(db : PrismaClient, category: string)
+export async function getMousesByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
-    return await db.mouse.findMany({ where: { category: category } });
+    return db.mouse.findMany({ where: { category: category } });
 }
 

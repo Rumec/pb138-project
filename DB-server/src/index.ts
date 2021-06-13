@@ -101,6 +101,7 @@ app.get("/api/components/:componentType", async (req, res) => {
         //https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express#answer-36507614
         res.statusMessage = "Component type is not provided in the URL.";
         res.status(400).end();
+        return;
     }
     
     //ommitted db tables: computer, memory, storage 
@@ -110,77 +111,78 @@ app.get("/api/components/:componentType", async (req, res) => {
     switch(req.params.componentType){
         case "cpu":
             if(category){
-                components = componentLoader.getCpusByCategory(prisma, category as string);
+                components = await componentLoader.getCpusByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getCpus(prisma);
+                components = await componentLoader.getCpus(prisma);
             }
             break;
         case "motherboard":
             if(category){
-                components = componentLoader.getMotherboardsByCategory(prisma, category as string);
+                components = await componentLoader.getMotherboardsByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getMotherboards(prisma);
+                components = await componentLoader.getMotherboards(prisma);
             }
             break;
         case "ram":
             if(category){
-                components = componentLoader.getRAMsByCategory(prisma, category as string);
+                components = await componentLoader.getRAMsByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getRAMs(prisma);
+                components = await componentLoader.getRAMs(prisma);
             }
             break;
         case "disk":
             if(category){
-                components = componentLoader.getDisksByCategory(prisma, category as string);
+                components = await componentLoader.getDisksByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getDisks(prisma);
+                components = await componentLoader.getDisks(prisma);
             }
             break;
         case "gpu":
             if(category){
-                components = componentLoader.getGPUsByCategory(prisma, category as string);
+                components = await componentLoader.getGPUsByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getGPUs(prisma);
+                components = await componentLoader.getGPUs(prisma);
             }
             break;
         case "psu":
             if(category){
-                components = componentLoader.getPSUsByCategory(prisma, category as string);
+                components = await componentLoader.getPSUsByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getPSUs(prisma);
+                components = await componentLoader.getPSUs(prisma);
             }
             break;
         case "case":
             if(category){
-                components = componentLoader.getCasesByCategory(prisma, category as string);
+                components = await componentLoader.getCasesByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getCases(prisma);
+                components = await componentLoader.getCases(prisma);
             }
             break;
         case "monitor":
             if(category){
-                components = componentLoader.getMonitorsByCategory(prisma, category as string);
+                components = await componentLoader.getMonitorsByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getMonitors(prisma);
+                components = await componentLoader.getMonitors(prisma);
             }
             break;
         case "keyboard":
             if(category){
-                components = componentLoader.getKeyboardsByCategory(prisma, category as string);
+                components = await componentLoader.getKeyboardsByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getKeyboards(prisma);
+                components = await componentLoader.getKeyboards(prisma);
             }
             break;
         case "mouse":
             if(category){
-                components = componentLoader.getMousesByCategory(prisma, category as string);
+                components = await componentLoader.getMousesByCategory(prisma, category as string);
             } else {
-                components = componentLoader.getMouses(prisma);
+                components = await componentLoader.getMouses(prisma);
             }
             break;
         default:
             res.statusMessage = "Invalid component type.";
             res.status(400).end();
+            return;
     }
     
     res.send(JSON.stringify(components));
