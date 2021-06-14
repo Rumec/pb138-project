@@ -1,6 +1,8 @@
 import { Order, PrismaClient } from "@prisma/client";
 import express from "express";
 import * as ordersDataHandler from "../dataAccess/ordersDataHandler";
+import * as computersDataHandler from "../dataAccess/computersDataHandler";
+
 
 /**
  * Loads all orders of current user or only specific number of latest orders if query parameter orderCount is provided.
@@ -73,7 +75,8 @@ export async function getWithComponents(db: PrismaClient, req: express.Request, 
         res.status(400).end();
         return;
     }
-    const order = await ordersDataHandler.get(db, orderId); //db call #1 for checks
+
+    const order = await ordersDataHandler.getWithComponentsExceptComputer(db, orderId);
     if (!order) {
         res.status(404).end();
         return;
@@ -89,8 +92,9 @@ export async function getWithComponents(db: PrismaClient, req: express.Request, 
         return;
     }
 
-    const orderWithIncludes = await ordersDataHandler.cancel(db, order.id); //db call #2 for full data
-    res.send(JSON.stringify(orderWithIncludes));
+    const orderExtendable : any = order as any;
+    (orderExtendable)["computers"] = await computersDataHandler.getAllWithComponents(db, order.id); //db call #3 for computer and its parts
+    res.send(JSON.stringify(orderExtendable));
 }
 
 

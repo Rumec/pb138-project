@@ -1,4 +1,4 @@
-import { Computer, Order, PrismaClient } from '@prisma/client';
+import { Computer, PrismaClient } from '@prisma/client';
 
 /**
 * Gets all computers for order by @param orderId with components included
