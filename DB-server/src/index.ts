@@ -3,7 +3,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import * as components from "./controllers/componentsController";
 import * as orders from "./controllers/ordersController";
-import { ServerResponse } from 'http';
+import * as users from "./controllers/usersController";
 
 
 const prisma = new PrismaClient();
@@ -14,7 +14,7 @@ const app = express();
 /**
  * For these routes, the X-User header is not checked (thus, unauthenticated requests are permitted)
  */
-const xUserHeaderMiddlewareSkipRoutes = ["/api/user/login", "api/user/registration"];
+const xUserHeaderMiddlewareSkipRoutes = ["/api/user/login", "/api/user/registration"];
 
 /**
  * Middleware function for checking if user specified in header exists.
@@ -93,11 +93,16 @@ app.get("/api/orders",  async (req, res) => orders.getForCurrentUser(prisma, req
 app.get("/api/components/:category", async (req, res) => components.getByCategory(prisma, req, res));
 
 /**
- * Retrieves components of all types
- * Note: ommitted db tables: computer, memory, storage 
- * Handles HTTP GET method on route: "/api/components
- */
- app.get("/api/components", async (req, res) => components.get(prisma, req, res));
+* Retrieves components of all types
+* Note: ommitted db tables: computer, memory, storage 
+* Handles HTTP GET method on route: "/api/components
+*/
+app.get("/api/components", async (req, res) => components.get(prisma, req, res));
+
+
+app.get("/api/user/login", async (req, res) => users.login(prisma, req, res));
+
+app.get("/api/user/registration", async (req, res) => users.register(prisma, req, res));
 
 
 /**
