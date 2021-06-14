@@ -1,12 +1,20 @@
 import {PrismaClient} from '@prisma/client';
 import express from "express";
 import bodyParser from "body-parser";
-import * as componentLoader from "./dataAccess/componentsLoader";
+import * as components from "./controllers/componentsController";
+import * as orders from "./controllers/ordersController";
+import * as users from "./controllers/usersController";
+
 
 const prisma = new PrismaClient();
 
 const port: number = 3000;
 const app = express();
+
+/**
+ * For these routes, the X-User header is not checked (thus, unauthenticated requests are permitted)
+ */
+const xUserHeaderMiddlewareSkipRoutes = ["/api/user/login", "/api/user/registration"];
 
 /**
  * Middleware function for checking if user specified in header exists.
@@ -17,7 +25,14 @@ const app = express();
  *       Pro práci s X-User platí následující - v Insomnii si u daného requestu rozklinete "Header" a přidáte header
  *       s názvem X-User a hodnota bude id uživatele
  */
-const middleware = async (req: any, res: any, next: any) => {
+const xUserHeaderMiddleware = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const requestPath = req.baseUrl + req.path; //https://stackoverflow.com/questions/12525928/how-to-get-request-path-with-express-req-object
+    if(xUserHeaderMiddlewareSkipRoutes.includes(requestPath)){
+        //do nothing but continue processing in REST API handlers
+        next();
+        return;
+    }
+
     const userId = req.header("X-User");
     if(!userId) {
         res.sendStatus(401);
@@ -33,14 +48,18 @@ const middleware = async (req: any, res: any, next: any) => {
         res.sendStatus(401);
         return;
     }
-    // This is the was to pass data to functions following middleware
-    res.locals.userId = +userId;
-    next(); //this means that the request handling is finished but it is passed to some next handlers (usually real REST API handlers)
+    // This is the way to pass data to functions processing the request after the middleware
+    res.locals.userId = +userId; //"userId" is put to every HTTP response (it can be then used in REST API handlers)
+    next(); //this means that the request handling is passed to some next handlers (usually real REST API handlers)
 };
 
 // Used for parsing JSONs and applying middleware to whole server
 // NOTE: If you want to apply some function to all routes in API as a middleware, pass it here as an argument
-app.use(bodyParser.json(), middleware);
+const middlewares = [xUserHeaderMiddleware];
+app.use(bodyParser.json(), ...middlewares);
+
+
+
 
 
 
@@ -56,140 +75,34 @@ app.use(bodyParser.json(), middleware);
  */
 
 
-
 /**
- * Loads all orders of current user or only specific number of latest orders if query parameter orderCount is provided.
+ * Loads all orders of current user 
+ * If query parameter "orderCount" is provided, only orderCount latest orders are loaded.
  *
- * Query format: /api/orders?orderCount={count}
+ * Handles GET method on route: /api/orders?orderCount={count}
  * 
  */
-app.get("/api/orders", async (req, res) => {
-    let orders;
-    if (req.query.orderCount) {
-        orders = await prisma.order.findMany({
-            where: {
-                user_id: res.locals.userId
-            },
-            orderBy: {
-                id: "desc"
-            },
-            take: +req.query.orderCount //+ = convert to number
-        });
-    } else {
-        orders = await prisma.order.findMany({
-            where: {
-                user_id: res.locals.userId
-            },
-            orderBy: {
-                id: "desc"
-            },
-        });
-    }
-
-    res.send(JSON.stringify(orders));
-});
+app.get("/api/orders",  async (req, res) => orders.getForCurrentUser(prisma, req, res));
 
 /**
- * Retrieves all components of given type
- * If query parameter "category" is provided, filters components of given type by category
- * Handles GET method on route: "/api/components/{componentType}?category={category}
+ * Retrieves components of all types by category
+ * Note: ommitted db tables: computer, memory, storage 
+ * Category is required
+ * Handles GET method on route: "/api/components/{category}
  */
-app.get("/api/components/:componentType", async (req, res) => {
-    let componentType = req.params.componentType;
-    if(!componentType){
-        //path parameter is not provided
-        //https://stackoverflow.com/questions/14154337/how-to-send-a-custom-http-status-message-in-node-express#answer-36507614
-        res.statusMessage = "Component type is not provided in the URL.";
-        res.status(400).end();
-        return;
-    }
-    
-    //ommitted db tables: computer, memory, storage 
+app.get("/api/components/:category", async (req, res) => components.getByCategory(prisma, req, res));
 
-    let components;
-    let category = req.query.category;
-    switch(req.params.componentType){
-        case "cpu":
-            if(category){
-                components = await componentLoader.getCpusByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getCpus(prisma);
-            }
-            break;
-        case "motherboard":
-            if(category){
-                components = await componentLoader.getMotherboardsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getMotherboards(prisma);
-            }
-            break;
-        case "ram":
-            if(category){
-                components = await componentLoader.getRAMsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getRAMs(prisma);
-            }
-            break;
-        case "disk":
-            if(category){
-                components = await componentLoader.getDisksByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getDisks(prisma);
-            }
-            break;
-        case "gpu":
-            if(category){
-                components = await componentLoader.getGPUsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getGPUs(prisma);
-            }
-            break;
-        case "psu":
-            if(category){
-                components = await componentLoader.getPSUsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getPSUs(prisma);
-            }
-            break;
-        case "case":
-            if(category){
-                components = await componentLoader.getCasesByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getCases(prisma);
-            }
-            break;
-        case "monitor":
-            if(category){
-                components = await componentLoader.getMonitorsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getMonitors(prisma);
-            }
-            break;
-        case "keyboard":
-            if(category){
-                components = await componentLoader.getKeyboardsByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getKeyboards(prisma);
-            }
-            break;
-        case "mouse":
-            if(category){
-                components = await componentLoader.getMousesByCategory(prisma, category as string);
-            } else {
-                components = await componentLoader.getMouses(prisma);
-            }
-            break;
-        default:
-            res.statusMessage = "Invalid component type.";
-            res.status(400).end();
-            return;
-    }
-    
-    res.send(JSON.stringify(components));
-});
+/**
+* Retrieves components of all types
+* Note: ommitted db tables: computer, memory, storage 
+* Handles HTTP GET method on route: "/api/components
+*/
+app.get("/api/components", async (req, res) => components.get(prisma, req, res));
 
 
+app.post("/api/user/login", async (req, res) => users.login(prisma, req, res));
 
+app.post("/api/user/registration", async (req, res) => users.register(prisma, req, res));
 
 
 /**

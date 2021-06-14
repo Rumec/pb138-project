@@ -3,7 +3,7 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:mypassword@localhost:5432/pc-configurator-db?schema=public" 
 }
 
 generator client {
