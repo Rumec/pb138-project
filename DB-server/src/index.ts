@@ -104,6 +104,15 @@ app.post("/api/user/login", async (req, res) => users.login(prisma, req, res));
 
 app.post("/api/user/registration", async (req, res) => users.register(prisma, req, res));
 
+//cancel an order
+app.put("/api/orders/:id", async (req, res) => orders.setCancelled(prisma, req, res));
+
+//order recap info
+app.get("/api/orders/:id", async (req, res) => orders.getWithComponents(prisma, req, res));
+
+//get all orders (+ limit by orderCount query parameter)
+app.get("/api/orders", async (req, res) => orders.getForCurrentUser(prisma, req, res));
+
 
 /**
  * #endregion REST API HTTP request handlers
