@@ -56,6 +56,45 @@ export async function setCancelled(db: PrismaClient, req: express.Request, res: 
 }
 
 
+/**
+* Loads an order with components and computer with internal components included
+* Intended use is for order recapitulation
+* If the order is not found, returns 404 Not Found
+* If the order does not belong to user, then 403 Forbidden
+* If the order is cancelled, then 409 Conflict
+* Handles HTTP GET method on route: /api/orders/{id}
+*   path parameter id is required (otherwise 400 Bad Request)
+*/
+export async function getWithComponents(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
+    const userId = res.locals.userId;
+    const orderId = +req.params.orderId;
+    if (!orderId) {
+        res.statusMessage = "Id path parameter not provided or NaN.";
+        res.status(400).end();
+        return;
+    }
+    const order = await ordersDataHandler.get(db, orderId); //db call #1 for checks
+    if (!order) {
+        res.status(404).end();
+        return;
+    }
+    //order! = definitely not null
+    if (!belongsToUser(order!, userId)) {
+        res.status(403).end();
+        return;
+    }
+    if (isCancelled(order!)) {
+        res.statusMessage = "Order had already been cancelled.";
+        res.status(409).end();
+        return;
+    }
+
+    const orderWithIncludes = await ordersDataHandler.cancel(db, order.id); //db call #2 for full data
+    res.send(JSON.stringify(orderWithIncludes));
+}
+
+
+
 function belongsToUser(order: Order, userId: number): boolean {
     return order.user_id == userId;
 }
