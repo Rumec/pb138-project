@@ -5,6 +5,7 @@ import * as computersDataHandler from "../dataAccess/computersDataHandler";
 
 
 /**
+ * NOT TESTED
  * Loads all orders of current user or only specific number of latest orders if query parameter orderCount is provided.
  * Requires that 
  * Handles HTTP GET method on route: /api/orders?orderCount={count}
@@ -24,9 +25,10 @@ export async function getForCurrentUser(db: PrismaClient, req: express.Request, 
 }
 
 /**
+ * NOT TESTED
 * Changes order state to cancelled
 * If the order is not found, returns 404 Not Found
-* If the order does not belong to user, then 403 Forbidden
+* If the order does not belong to current user, then 403 Forbidden
 * If the order is already cancelled, then 409 Conflict
 * Handles HTTP PUT method on route: /api/orders/{id}
 *   path parameter id is required (otherwise 400 Bad Request)
@@ -59,10 +61,11 @@ export async function setCancelled(db: PrismaClient, req: express.Request, res: 
 
 
 /**
+ * NOT TESTED
 * Loads an order with components and computer with internal components included
 * Intended use is for order recapitulation
 * If the order is not found, returns 404 Not Found
-* If the order does not belong to user, then 403 Forbidden
+* If the order does not belong to curent user, then 403 Forbidden
 * If the order is cancelled, then 409 Conflict
 * Handles HTTP GET method on route: /api/orders/{id}
 *   path parameter id is required (otherwise 400 Bad Request)
