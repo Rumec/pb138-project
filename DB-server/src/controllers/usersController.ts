@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
-import * as usersLoader from "./../dataAccess/usersLoader";
+import * as usersDataHandler from "../dataAccess/usersDataHandler";
 
 /**
  * Registers an user
@@ -9,7 +9,7 @@ import * as usersLoader from "./../dataAccess/usersLoader";
  * - password and passwordConfirm must match
  * - username must not be already used by a different user
  * 
- * Handles HTTP POST method on route: "/api/user/registration
+ * Handles HTTP POST method on route: /api/user/registration
  * @returns newly created user object (contains id)
  */
 export async function register(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
@@ -28,14 +28,14 @@ export async function register(db: PrismaClient, req: express.Request, res: expr
         return;
     }
 
-    const existingUser = await usersLoader.getByUsername(db, username);
+    const existingUser = await usersDataHandler.getByUsername(db, username);
     if (existingUser) {
         res.statusMessage = "User with given username already exists.";
         res.status(409).end(); //Conflict
         return;
     }
 
-    const user = await usersLoader.insert(db, username, password);
+    const user = await usersDataHandler.insert(db, username, password);
     res.send(JSON.stringify(user));
 }
 
@@ -45,7 +45,7 @@ export async function register(db: PrismaClient, req: express.Request, res: expr
 * Success conditions:
 * - matching user for given username and password combination exists in db
 * 
-* Handles HTTP POST method on route: "/api/user/login
+* Handles HTTP POST method on route: /api/user/login
 * @returns user object
 */
 export async function login(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
@@ -57,7 +57,7 @@ export async function login(db: PrismaClient, req: express.Request, res: express
         return;
     }
 
-    const user = await usersLoader.getByUsername(db, username);
+    const user = await usersDataHandler.getByUsername(db, username);
     
     if (!user) {
         res.statusMessage = "User with given username does not exist.";
