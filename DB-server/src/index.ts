@@ -100,9 +100,9 @@ app.get("/api/components/:category", async (req, res) => components.getByCategor
 app.get("/api/components", async (req, res) => components.get(prisma, req, res));
 
 
-app.get("/api/user/login", async (req, res) => users.login(prisma, req, res));
+app.post("/api/user/login", async (req, res) => users.login(prisma, req, res));
 
-app.get("/api/user/registration", async (req, res) => users.register(prisma, req, res));
+app.post("/api/user/registration", async (req, res) => users.register(prisma, req, res));
 
 
 /**
