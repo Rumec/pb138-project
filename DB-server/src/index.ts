@@ -4,11 +4,12 @@ import bodyParser from "body-parser";
 import * as components from "./controllers/componentsController";
 import * as orders from "./controllers/ordersController";
 import * as users from "./controllers/usersController";
+import cors from 'cors';
 
 
 const prisma = new PrismaClient();
 
-const port: number = 3000;
+const port: number = 5000;
 const app = express();
 
 /**
@@ -56,7 +57,7 @@ const xUserHeaderMiddleware = async (req: express.Request, res: express.Response
 // Used for parsing JSONs and applying middleware to whole server
 // NOTE: If you want to apply some function to all routes in API as a middleware, pass it here as an argument
 const middlewares = [xUserHeaderMiddleware];
-app.use(bodyParser.json(), ...middlewares);
+app.use(bodyParser.json(), cors(), ...middlewares);
 
 
 
