@@ -24,17 +24,20 @@ function App() {
                 </Row>
                 <Row>
                     <Col>
-                        <UserRegistration/>
+                        <LoginPage/>
+
                     </Col>
                 </Row>
                 {/*
             <Row>
                 <Col>
+
                 <ComponentSelector/>
-                    <LoginPage/>
+<UserRegistration/>
                 </Col>
             </Row>
 
+<UserRegistration/>
             <ComputerTypeChooser/>
             */}
             </RecoilRoot>

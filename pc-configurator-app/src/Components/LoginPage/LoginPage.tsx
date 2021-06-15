@@ -35,13 +35,12 @@ export const LoginPage: React.FC = () => {
         const loginData = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'X-User': 'God'
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(loginInfo)
         }
 
-        fetch('http://localhost:5000/api/login', loginData)
+        fetch('http://localhost:5000/api/user/login', loginData)
             .then(async response => {
                 if (response.status !== 200) {
                     window.alert("Wrong user name or password");

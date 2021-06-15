@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import * as components from "./controllers/componentsController";
 import * as orders from "./controllers/ordersController";
 import * as users from "./controllers/usersController";
+import * as usersDataHandler from "./dataAccess/usersDataHandler";
+
 import cors from 'cors';
 
 
@@ -29,6 +31,7 @@ const xUserHeaderMiddlewareSkipRoutes = ["/api/user/login", "/api/user/registrat
 const xUserHeaderMiddleware = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const requestPath = req.baseUrl + req.path; //https://stackoverflow.com/questions/12525928/how-to-get-request-path-with-express-req-object
     if(xUserHeaderMiddlewareSkipRoutes.includes(requestPath)){
+        console.log("middleware: Xuser header was not checked!");
         //do nothing but continue processing in REST API handlers
         next();
         return;
@@ -36,16 +39,20 @@ const xUserHeaderMiddleware = async (req: express.Request, res: express.Response
 
     const userId = req.header("X-User");
     if(!userId) {
+        console.log("middleware: user was not found");
         res.sendStatus(401);
         return;
     }
 
-    const user = await prisma.user.findMany({
-        where: {
-            id: +userId
-        }
-    });
-    if (user.length === 0) {
+    // const user = await prisma.user.findMany({
+    //     where: {
+    //         id: +userId
+    //     }
+    // });
+
+    const user = await usersDataHandler.getById(prisma, +userId);
+
+    if (!user) {
         res.sendStatus(401);
         return;
     }

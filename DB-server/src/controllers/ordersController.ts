@@ -12,7 +12,7 @@ import * as computersDataHandler from "../dataAccess/computersDataHandler";
  */
 export async function getForCurrentUser(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
     let orders;
-    let userId = res.locals.userId;
+    let userId = +res.locals.userId;
 
     if (req.query.orderCount) {
         let amount = +req.query.orderCount;
@@ -34,7 +34,7 @@ export async function getForCurrentUser(db: PrismaClient, req: express.Request, 
 *   path parameter id is required (otherwise 400 Bad Request)
 */
 export async function setCancelled(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
-    const userId = res.locals.userId;
+    const userId = +res.locals.userId;
     const orderId = +req.params.orderId;
     if (!orderId) {
         res.statusMessage = "Id path parameter not provided or NaN.";
@@ -71,7 +71,7 @@ export async function setCancelled(db: PrismaClient, req: express.Request, res: 
 *   path parameter id is required (otherwise 400 Bad Request)
 */
 export async function getWithComponents(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
-    const userId = res.locals.userId;
+    const userId = +res.locals.userId;
     const orderId = +req.params.orderId;
     if (!orderId) {
         res.statusMessage = "Id path parameter not provided or NaN.";

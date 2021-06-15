@@ -1,9 +1,11 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// "postgresql://postgres:mysecretpassword@localhost:5432/mydb?schema=public"
+// "postgresql://postgres:mypassword@localhost:5432/pc-configurator-db?schema=public"
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:mypassword@localhost:5432/pc-configurator-db?schema=public" 
+  url      = "postgresql://postgres:mysecretpassword@localhost:5432/mydb?schema=public"
 }
 
 generator client {
