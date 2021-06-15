@@ -1,48 +1,27 @@
 import './App.css';
-import {TopMenu} from "./Components/TopMenu/TopMenu";
-import {TopBanner} from "./Components/TopBanner/TopBanner";
-import {ComputerTypeChooser} from "./Components/ComputerTypeChooser/ComputerTypeChooser";
-import {ComponentSelector} from "./Components/ComponentSelector/ComponentSelector";
-import {Container, Row, Col} from 'reactstrap';
-import {LoginPage} from "./Components/LoginPage/LoginPage";
-import {RecoilRoot} from "recoil";
-import {UserRegistration} from "./Components/UserRegistration/UserRegistration";
 
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+
+import Login from "./pages/Login.js"
+import Selector from "./pages/ComponentSelector.js"
+import Register from "./pages/Registration.js"
+import Type from "./pages/ComputerType.js"
+import Category from "./pages/SpecificCategory.js"
 function App() {
     return (
-        <Container fluid={true}>
-            <RecoilRoot>
-                <Row>
-                    <Col>
-                        <TopMenu/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <TopBanner header={"PC configurator"}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <LoginPage/>
+        <Router>
+            <Switch>
+                <Route path="/" exact component={Login}/>
+                <Route path="/login"  component={Login}/>
+                <Route path="/ComponentSelector"  component={Selector}/>
+                <Route path="/register" component={Register}/>
+                <Route path="/type" component={Type}/>
+                <Route path="/specificCategory" component={Category}/>
+            </Switch> 
+        </Router>
 
-                    </Col>
-                </Row>
-                {/*
-            <Row>
-                <Col>
-
-                <ComponentSelector/>
-<UserRegistration/>
-                </Col>
-            </Row>
-
-<UserRegistration/>
-            <ComputerTypeChooser/>
-            */}
-            </RecoilRoot>
-        </Container>
     );
 }
 
 export default App;
+
