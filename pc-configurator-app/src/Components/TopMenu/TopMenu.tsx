@@ -25,7 +25,7 @@ export const TopMenu: React.FC = () => {
             </NavbarBrand>
             <Nav navbar>
                 <NavItem>
-                    <NavLink href="#" class="navBar__text">Language</NavLink>
+                    <NavLink href="/history" class="navBar__text">Order History</NavLink>
                 </NavItem>
                 <span className="navBar__text">|</span>
                 <NavItem>

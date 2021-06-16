@@ -23,6 +23,7 @@ function App() {
                     <Route path="/type" component={Type}/>
                     <Route path="/specificCategory" component={Category}/>
                     <Route path="/ShoppingCart" component={ShoppingCart}/>
+                    <Route path="/History" component={ShoppingCart}/>
                 </Switch>
             </RecoilRoot>
         </Router>
