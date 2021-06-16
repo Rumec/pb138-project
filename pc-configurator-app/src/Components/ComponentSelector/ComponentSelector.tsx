@@ -5,6 +5,7 @@ import BEMHelper from 'react-bem-helper';
 import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelectedTable";
 import {Table, Badge, Button} from 'reactstrap';
 import {useRecoilState} from "recoil";
+import {useHistory} from "react-router-dom";
 import {selectedPcPartsState, userState} from "../../store/atoms";
 import useSWR from "swr";
 
@@ -56,15 +57,18 @@ const DropdownPicker: React.FC<IComponentSelectorProps> = (props: IComponentSele
 
 
 export const ComponentSelector: React.FC = () => {
+    const history = useHistory();
     const [selectedPcParts, setSelectedPcParts] = useRecoilState(selectedPcPartsState);
     const [userInformation] = useRecoilState(userState);
+
+
 
     const fetcher = (url: string) => {
         const loginData = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-User': userInformation.data.id.toString()
+                'X-User': '4'//userInformation.data.id.toString()
             },
         }
 
@@ -78,7 +82,7 @@ export const ComponentSelector: React.FC = () => {
 
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>loading...</div>;
-
+    console.log(data);
     /**
      * Handles change of dropdown and updates components state accordingly
      * @param event
@@ -126,6 +130,7 @@ export const ComponentSelector: React.FC = () => {
             return;
         }
         // TODO - routa na košík
+        history.push('/ShoppingCart');
     }
 
     return (

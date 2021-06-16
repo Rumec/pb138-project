@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ComputerImage from './images/computer.svg';
 import BEMHelper from 'react-bem-helper';
 import Button from 'react-bootstrap/Button';
+import {useHistory} from "react-router-dom";
 
 interface IComputerTypeProps {
     header: string,
@@ -21,6 +22,7 @@ const classes = new BEMHelper({
 
 // TODO: Změnit obrázek
 export const ComputerType: React.FC<IComputerTypeProps> = (props: IComputerTypeProps) => {
+    let history = useHistory();
     return (
         <div {...classes()}>
             <div {...classes('header')}>{props.header}</div>
@@ -32,7 +34,12 @@ export const ComputerType: React.FC<IComputerTypeProps> = (props: IComputerTypeP
             <div>{props.diskName}</div>
             <div {...classes('price-line')}>
                 <div {...classes('price')}>{props.price} €</div>
-                <Button>Select</Button>
+                <Button
+                    onClick={() => {
+                        console.log()
+                        history.push('/ComponentSelector');
+                    }}
+                >Select</Button>
             </div>
 
         </div>

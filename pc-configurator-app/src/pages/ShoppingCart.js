@@ -1,16 +1,15 @@
 import '../App.css';
 import {TopMenu} from "../Components/TopMenu/TopMenu";
 import {TopBanner} from "../Components/TopBanner/TopBanner";
-import {ComputerTypeChooser} from "../Components/ComputerTypeChooser/ComputerTypeChooser";
 import {Container, Row, Col} from 'reactstrap';
 import {RecoilRoot} from "recoil";
+import {UserRegistration} from "../Components/UserRegistration/UserRegistration";
 import {ShoppingCart} from "../Components/ShoppingCart/ShoppingCart";
 
 function App() {
     return (
         <Container fluid={true}>
             <RecoilRoot>
-
                 <Row>
                     <Col>
                         <TopMenu/>
@@ -23,7 +22,7 @@ function App() {
                 </Row>
                 <Row>
                     <Col>
-                        <ComputerTypeChooser/>
+                        <ShoppingCart/>
                     </Col>
                 </Row>
             </RecoilRoot>

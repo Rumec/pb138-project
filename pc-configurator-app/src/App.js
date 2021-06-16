@@ -7,18 +7,12 @@ import Selector from "./pages/ComponentSelector.js"
 import Register from "./pages/Registration.js"
 import Type from "./pages/ComputerType.js"
 import Category from "./pages/SpecificCategory.js"
-import {useRecoilState} from "recoil";
-import {userState} from './store/atoms';
-import { useState } from 'react';
-
-import {RecoilRoot} from "recoil";
-import { render } from '@testing-library/react';
+import ShoppingCart from "./pages/ShoppingCart";
+import ComponentSelector from "./pages/ComponentSelector"
 
 
 
 function App() {
-    console.log(userInformation)
-    
     return (
         <Router>
             <Switch>
@@ -28,6 +22,7 @@ function App() {
                 <Route path="/register" component={Register}/>
                 <Route path="/type" component={Type}/>
                 <Route path="/specificCategory" component={Category}/>
+                <Route path="/ShoppingCart" component={ShoppingCart} />
             </Switch> 
         </Router>
     );
