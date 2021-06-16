@@ -15,7 +15,7 @@ const classes = new BEMHelper({
 
 export const TopMenu: React.FC = () => {
     return (
-        <Navbar {...classes()} light expand="md">
+        <Navbar {...classes()} expand="md">
             <NavbarBrand className="mr-auto">
                 <Nav navbar>
                     <NavItem>

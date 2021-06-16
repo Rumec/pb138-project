@@ -57,7 +57,6 @@ export const LoginPage: React.FC = () => {
                 if (userInformation.isLoading) {
                     // Setting global state
                     setUserInformation({isLoading: false, data: userInformationFetched});
-                   
                     history.push('/type');
                 }
             })

@@ -13,7 +13,8 @@ import {RecoilRoot} from "recoil";
 
 
 function App() {
-    const [userInformation] = useRecoilState(userState);
+    var [userInformation] = useRecoilState(userState);
+    console.log(userInformation.isLoading)
     return (
         
             <Router>
