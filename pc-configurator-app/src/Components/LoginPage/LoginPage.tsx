@@ -5,7 +5,7 @@ import {Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row} fr
 import {useRecoilState, useRecoilValue} from "recoil";
 import {userState} from '../../store/atoms';
 import { useHistory } from "react-router-dom";
-
+import App from "../../App.js"
 
 
 
@@ -63,6 +63,7 @@ export const LoginPage: React.FC = () => {
             .catch(err => {
                 window.alert('The was an error!\n' + err);
             });
+
     }
 
     return (
