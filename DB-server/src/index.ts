@@ -86,9 +86,10 @@ app.use(bodyParser.json(), cors(), ...middlewares);
 
 /**
  * Loads all orders of current user 
- * If query parameter "orderCount" is provided, only orderCount latest orders are loaded.
+ * If JSON parameter "orderCount" is provided, only that many latest orders are loaded.
  *
- * Handles GET method on route: /api/orders?orderCount={count}
+ * Handles GET method on route: /api/orders
+ * with optional JSON body parameter orderCount
  * 
  */
 app.get("/api/orders",  async (req, res) => orders.getForCurrentUser(prisma, req, res));
@@ -116,11 +117,11 @@ app.post("/api/user/registration", async (req, res) => users.register(prisma, re
 //cancel an order
 app.put("/api/orders/:id", async (req, res) => orders.setCancelled(prisma, req, res));
 
-//order recap info
+//load existing order recap info
 app.get("/api/orders/:id", async (req, res) => orders.getWithComponents(prisma, req, res));
 
-//get all orders (+ limit by orderCount query parameter)
-app.get("/api/orders", async (req, res) => orders.getForCurrentUser(prisma, req, res));
+//create a new order (in fact returns order for recap, too)
+app.post("api/orders", async (req, res) => orders.createNew(prisma, req, res));
 
 
 /**

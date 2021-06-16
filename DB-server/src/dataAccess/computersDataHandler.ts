@@ -1,4 +1,6 @@
 import { Computer, PrismaClient } from '@prisma/client';
+import * as componentsDataHandler from "../dataAccess/componentsDataHandler";
+
 
 /**
 * Gets all computers for order by @param orderId with components included
@@ -57,6 +59,26 @@ export async function getWithComponents(db: PrismaClient, id: number): Promise<C
             }
         },
     });
+}
+
+export async function createNew(db: PrismaClient,
+     orderId: number, category: string, totalPrice: number,
+      cpuId: number, gpuId: number, ramId: number, motherboardId: number,
+      diskId: number, psuId: number, caseId: number): Promise<Computer> {
+
+    const newComputer = await db.computer.create({data: {
+        order_id: orderId,
+        total_orice: totalPrice,
+        category: category,
+        case_id: caseId,
+        cpu_id: cpuId,
+        gpu_id: gpuId,
+        motherboard_id: motherboardId,
+        psu_id: psuId,
+    }});
+    componentsDataHandler.createRamStorageForComputer(db, ramId, newComputer.id);
+    componentsDataHandler.createDiskStorageForComputer(db, diskId, newComputer.id);
+    return newComputer;
 }
 
 

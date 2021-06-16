@@ -95,11 +95,135 @@ export async function getWithComponents(db: PrismaClient, req: express.Request, 
         return;
     }
 
-    const orderExtendable : any = order as any;
+    const orderExtendable: any = order as any;
     (orderExtendable)["computers"] = await computersDataHandler.getAllWithComponents(db, order.id); //db call #3 for computer and its parts
     res.send(JSON.stringify(orderExtendable));
 }
 
+/**
+ * NOT TESTED
+* Creates a new order using given components (cpu, ram, psu, gpu, disk, motherboard, case) and optional (keyboard, mouse, monitor)
+* A new computer is created internally which is then added to the order as a holder of the components
+* TODO: if there is an error with referential integrity in the data access layer (invalid id was passed to the request), 
+then returns 400 Bad Request
+* 
+* Handles HTTP POST method on route: /api/orders
+* Required input data format:
+* JSON body with all internal computer components is required (otherwise 400 Bad Request)
+* JSON body attributes keyboard, mouse and monitor (note that the screen component is called "monitor" in the JSON body) are optional
+*/
+export async function createNew(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
+    const userId = +res.locals.userId;
+    const data = req.body;
+    if (!data.cpu || !data.case || !data.gpu || !data.motherboard || !data.psu || !data.ram || !data.disk) {
+        res.statusMessage = "A required component is missing.";
+        res.status(400).end();
+        return;
+    }
+    const cpuId = data.cpu.id as number;
+    const caseId = data.case.id as number;
+    const gpuId = data.gpu.id as number;
+    const motherboardId = data.motherboard.id as number;
+    const psuId = data.psu.id as number;
+    const ramId = data.ram.id as number;
+    const diskId = data.disk.id as number;
+
+    const keyboardId = data.keyboard.id as number;
+    const mouseId = data.mouse.id as number;
+    const screenId = data.monitor.id as number; //note: "monitor" in the input JSON data instead of "screen"
+
+    if (!cpuId || !caseId || !gpuId || !motherboardId || !psuId || !ramId || !diskId) {
+        res.statusMessage = "A required component ID is missing.";
+        res.status(400).end();
+        return;
+    }
+
+    let totalComptuterPrice: number;
+    try{
+        totalComptuterPrice = getTotalComputerPrice(data);
+    } catch (e){ //.price attributes are missing in JSON
+        res.statusMessage = "Could not calculate total computer price, reason (invalid data format): " + e.message;
+        res.status(400).end();
+        return;
+    }
+
+    //calculate total order price (add optional components prices)
+    let totalOrderPrice = totalComptuterPrice;
+    if(data.keyboard.price as number){
+        totalOrderPrice += +data.keyboard.price;
+    }
+    if(data.monitor.price as number){
+        totalOrderPrice += +data.monitor.price;
+    }
+    if(data.mouse.price as number){
+        totalOrderPrice += +data.mouse.price;
+    }
+
+    let order : Order;
+    try{
+        //create order without computer
+        order = await ordersDataHandler.createNewWithoutComputer(db, userId, mouseId, keyboardId, screenId, totalComptuterPrice);
+        //create computer and assign to order
+        await computersDataHandler.createNew(db, order.id, "boobs", totalOrderPrice, cpuId, gpuId, ramId, motherboardId, diskId, psuId, caseId);
+    } catch (e){
+        console.log(e);
+        res.statusMessage = "Order was not created. DB integrity would be broken.";
+        res.status(400).end();
+        return;
+    }
+    return ordersDataHandler.get(db, order.id); //load fresh with computer and inner components included 
+
+
+}
+
+function getTotalComputerPrice(data: any): number {
+    let totalPrice = 0;
+
+    //required
+    if (data.cpu.price as number) {
+        totalPrice += data.cpu.price;
+    } else {
+        throw new Error("cpu price not provided");
+    }
+    if (data.case.price as number) {
+        totalPrice += data.case.price;
+    }
+    else {
+        throw new Error("case price not provided");
+    }
+    if (data.gpu.price as number) {
+        totalPrice += data.gpu.price;
+    }
+    else {
+        throw new Error("gpu price not provided");
+    }
+    if (data.motherboard.price as number) {
+        totalPrice += data.motherboard.price;
+    }
+    else {
+        throw new Error("motherboard price not provided");
+    }
+    if (data.psu.price as number) {
+        totalPrice += data.psu.price;
+    }
+    else {
+        throw new Error("psu price not provided");
+    }
+    if (data.ram.price as number) {
+        totalPrice += data.ram.price;
+    }
+    else {
+        throw new Error("ram price not provided");
+    }
+    if (data.disk.price as number) {
+        totalPrice += data.disk.price;
+    }
+    else {
+        throw new Error("disk price not provided");
+    }
+
+    return totalPrice;
+}
 
 
 function belongsToUser(order: Order, userId: number): boolean {

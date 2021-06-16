@@ -16,7 +16,7 @@ export async function get(db: PrismaClient, req: express.Request, res: express.R
     let gpus = await componentsDataHandler.getGPUs(db);
     let psus = await componentsDataHandler.getPSUs(db);
     let cases = await componentsDataHandler.getCases(db);
-    let monitors = await componentsDataHandler.getMonitors(db);
+    let screens = await componentsDataHandler.getScreens(db);
     let keyboards = await componentsDataHandler.getKeyboards(db);
     let mouses = await componentsDataHandler.getMouses(db);
 
@@ -29,7 +29,7 @@ export async function get(db: PrismaClient, req: express.Request, res: express.R
         "gpu" : gpus,
         "psu" : psus,
         "case" : cases,
-        "monitor" : monitors,
+        "screen" : screens,
         "keyboard" : keyboards,
         "mouse" : mouses
     };
@@ -60,7 +60,7 @@ export async function getByCategory(db: PrismaClient, req: express.Request, res:
     let gpus = await componentsDataHandler.getGPUsByCategory(db, category as string);
     let psus = await componentsDataHandler.getPSUsByCategory(db, category as string);
     let cases = await componentsDataHandler.getCasesByCategory(db, category as string);
-    let monitors = await componentsDataHandler.getMonitorsByCategory(db, category as string);
+    let screens = await componentsDataHandler.getScreensByCategory(db, category as string);
     let keyboards = await componentsDataHandler.getKeyboardsByCategory(db, category as string);
     let mouses = await componentsDataHandler.getMousesByCategory(db, category as string);
 
@@ -73,7 +73,7 @@ export async function getByCategory(db: PrismaClient, req: express.Request, res:
         "gpu" : gpus,
         "psu" : psus,
         "case" : cases,
-        "monitor" : monitors,
+        "screen" : screens,
         "keyboard" : keyboards,
         "mouse" : mouses
     };
