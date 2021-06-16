@@ -73,7 +73,7 @@ export async function getByCategory(db: PrismaClient, req: express.Request, res:
         "gpu" : gpus,
         "psu" : psus,
         "case" : cases,
-        "screen" : screens,
+        "monitor" : screens,
         "keyboard" : keyboards,
         "mouse" : mouses
     };
