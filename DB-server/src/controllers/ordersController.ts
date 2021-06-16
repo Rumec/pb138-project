@@ -6,16 +6,16 @@ import * as computersDataHandler from "../dataAccess/computersDataHandler";
 
 /**
  * NOT TESTED
- * Loads all orders of current user or only specific number of latest orders if query parameter orderCount is provided.
+ * Loads all orders of current user or only specific number of latest orders if JSON body attribute orderCount is provided.
  * Requires that 
- * Handles HTTP GET method on route: /api/orders?orderCount={count}
+ * Handles HTTP GET method on route: /api/orders with JSON object with "orderCount" attribute
  */
 export async function getForCurrentUser(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
     let orders;
     let userId = +res.locals.userId;
 
-    if (req.query.orderCount) {
-        let amount = +req.query.orderCount;
+    if (req.body.orderCount) {
+        let amount = +req.body.orderCount;
         orders = ordersDataHandler.getByUserTakeN(db, userId, amount);
     } else {
         orders = ordersDataHandler.getByUser(db, userId);

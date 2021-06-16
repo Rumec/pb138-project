@@ -17,8 +17,6 @@ import { render } from '@testing-library/react';
 
 
 function App() {
-    const [userInformation] = useRecoilState(userState);
-
     console.log(userInformation)
     
     return (
