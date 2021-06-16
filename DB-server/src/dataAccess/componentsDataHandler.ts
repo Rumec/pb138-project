@@ -72,12 +72,12 @@ export async function getCasesByCategory(db : PrismaClient, category: string) : 
     return db.case.findMany({ where: { category: category } });
 }
 
-export async function getMonitors(db : PrismaClient) : Promise<any[]>
+export async function getScreens(db : PrismaClient) : Promise<any[]>
 {
     return db.screen.findMany();
 }
 
-export async function getMonitorsByCategory(db : PrismaClient, category: string) : Promise<any[]>
+export async function getScreensByCategory(db : PrismaClient, category: string) : Promise<any[]>
 {
     return db.screen.findMany({ where: { category: category } });
 }

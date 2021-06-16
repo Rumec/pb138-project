@@ -100,6 +100,36 @@ export async function getWithComponents(db: PrismaClient, req: express.Request, 
     res.send(JSON.stringify(orderExtendable));
 }
 
+export async function createNew(db: PrismaClient, req: express.Request, res: express.Response): Promise<number> {
+    const userId = +res.locals.userId;
+    const orderId = +req.params.orderId;
+    if (!orderId) {
+        res.statusMessage = "Id path parameter not provided or NaN.";
+        res.status(400).end();
+        return;
+    }
+
+    const order = await ordersDataHandler.getWithComponentsExceptComputer(db, orderId);
+    if (!order) {
+        res.status(404).end();
+        return;
+    }
+    //order! = definitely not null
+    if (!belongsToUser(order!, userId)) {
+        res.status(403).end();
+        return;
+    }
+    if (isCancelled(order!)) {
+        res.statusMessage = "Order had already been cancelled.";
+        res.status(409).end();
+        return;
+    }
+
+    const orderExtendable : any = order as any;
+    (orderExtendable)["computers"] = await computersDataHandler.getAllWithComponents(db, order.id); //db call #3 for computer and its parts
+    res.send(JSON.stringify(orderExtendable));
+}
+
 
 
 function belongsToUser(order: Order, userId: number): boolean {
