@@ -100,12 +100,10 @@ export const ComponentSelector: React.FC = () => {
                     }
                 });
             }
-            console.log(selectedPcParts);
         }
 
     // @ts-ignore
     const componentPickers = Object.entries(data).map(([name, items]) => {
-        console.log(data);
         // @ts-ignore
         return <DropdownPicker name={name} items={items} handleChange={handleChange}/>
     })
@@ -121,7 +119,6 @@ export const ComponentSelector: React.FC = () => {
             }
             return true;
         });
-        console.log(selectedItems);
         const result = selectedItems.reduce((sum, next) => sum && next, true);
 
         if(!result) {
