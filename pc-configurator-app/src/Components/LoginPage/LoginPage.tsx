@@ -2,8 +2,12 @@ import React, {useState} from 'react';
 import './LoginPage.css';
 import BEMHelper from 'react-bem-helper';
 import {Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row} from "reactstrap";
-import {useRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {userState} from '../../store/atoms';
+import { useHistory } from "react-router-dom";
+
+
+
 
 
 const classes = new BEMHelper({
@@ -12,6 +16,7 @@ const classes = new BEMHelper({
 
 
 export const LoginPage: React.FC = () => {
+    let history = useHistory();
 
     const [loginInfo, setLoginInfo] = useState({
         login: "",
@@ -52,6 +57,8 @@ export const LoginPage: React.FC = () => {
                 if (userInformation.isLoading) {
                     // Setting global state
                     setUserInformation({isLoading: false, data: userInformationFetched});
+                   
+                    history.push('/type');
                 }
             })
             .catch(err => {

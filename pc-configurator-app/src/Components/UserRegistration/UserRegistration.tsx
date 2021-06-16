@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import './UserRegistration.css';
 import BEMHelper from 'react-bem-helper';
 import {Button, Col, Input, InputGroup, InputGroupAddon, InputGroupText, Row} from "reactstrap";
-import {useRecoilState} from "recoil";
+import {useRecoilSnapshot, useRecoilState} from "recoil";
 import {userState} from '../../store/atoms';
-
+import { useHistory } from "react-router-dom";
 
 const classes = new BEMHelper({
     name: 'registration',
@@ -12,7 +12,7 @@ const classes = new BEMHelper({
 
 
 export const UserRegistration: React.FC = () => {
-
+    let history = useHistory();
     const [registrationInfo, setRegistrationInfo] = useState({
         login: "",
         password: "",
@@ -44,11 +44,13 @@ export const UserRegistration: React.FC = () => {
             },
             body: JSON.stringify(registrationInfo)
         }
+        
 
         fetch('http://localhost:5000/api/user/registration', registrationData)
             .catch(err => {
                 window.alert('There was an error!\n' + err);
             });
+        history.push("/login")
     }
 
     return (
