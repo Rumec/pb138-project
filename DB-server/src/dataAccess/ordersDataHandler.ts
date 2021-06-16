@@ -1,4 +1,4 @@
-import { Order, PrismaClient } from '@prisma/client';
+import { Computer, Order, PrismaClient } from '@prisma/client';
 
 /**
  * Gets all orders for specified user by user id
@@ -76,4 +76,32 @@ export async function getWithComponentsExceptComputer(db: PrismaClient, id: numb
             computers: false //to be loaded separately
         },
     });
+}
+
+/**
+ * Creates a new order
+ * The computer must be assigned to the order afterwards
+ * Cancelled and Paid flags are set to false by default
+ * @param db 
+ * @param userId required
+ * @param computer required
+ * @param mouseId optional
+ * @param keyboardId optional
+ * @param screenId optional
+ * @param totalPrice required
+ * @returns 
+ */
+export async function createNewWithoutComputer(db: PrismaClient,
+    userId: number, mouseId: number | null, keyboardId: number | null, screenId: number | null,
+     totalPrice: number): Promise<Order> {
+    const newOrderData = {
+        canceled: false,
+        paid: false,
+        total_price: totalPrice,
+        user_id: userId,
+        screen_id: screenId,
+        mouse_id: mouseId,
+        keyboard_id: keyboardId
+    };
+    return db.order.create({data: newOrderData});
 }
