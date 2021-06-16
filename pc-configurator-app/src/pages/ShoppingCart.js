@@ -9,23 +9,21 @@ import {ShoppingCart} from "../Components/ShoppingCart/ShoppingCart";
 function App() {
     return (
         <Container fluid={true}>
-            <RecoilRoot>
-                <Row>
-                    <Col>
-                        <TopMenu/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <TopBanner header={"PC configurator"}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <ShoppingCart/>
-                    </Col>
-                </Row>
-            </RecoilRoot>
+            <Row>
+                <Col>
+                    <TopMenu/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <TopBanner header={"PC configurator"}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <ShoppingCart/>
+                </Col>
+            </Row>
         </Container>
     );
 }

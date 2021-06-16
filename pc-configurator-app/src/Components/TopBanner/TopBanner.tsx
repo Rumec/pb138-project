@@ -25,10 +25,6 @@ export const TopBanner: React.FC<ITopBannerProps> = (props: ITopBannerProps) => 
                     <h1 className="top-Banner__name">{props.header}</h1>
                 </NavbarBrand>
             <Nav navbar>
-                
-                <NavItem>
-                    <NavLink href="#"><img {...classes('icon')} src={ShoppingCart} alt={'Shopping cart.'}/></NavLink>
-                </NavItem>
             </Nav>
         </Navbar>
         
