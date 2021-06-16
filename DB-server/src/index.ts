@@ -117,9 +117,10 @@ app.post("/api/user/registration", async (req, res) => users.register(prisma, re
 //cancel an order
 app.put("/api/orders/:id", async (req, res) => orders.setCancelled(prisma, req, res));
 
-//order recap info
+//load existing order recap info
 app.get("/api/orders/:id", async (req, res) => orders.getWithComponents(prisma, req, res));
 
+//create a new order (in fact returns order for recap, too)
 app.post("api/orders", async (req, res) => orders.createNew(prisma, req, res));
 
 

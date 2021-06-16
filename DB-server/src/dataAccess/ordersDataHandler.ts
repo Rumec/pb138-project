@@ -1,4 +1,4 @@
-import { Computer, Order, PrismaClient } from '@prisma/client';
+import { Order, PrismaClient } from '@prisma/client';
 
 /**
  * Gets all orders for specified user by user id

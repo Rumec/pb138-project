@@ -1,4 +1,4 @@
-import { Computer, Memory, PrismaClient } from '@prisma/client';
+import { Computer, PrismaClient } from '@prisma/client';
 import * as componentsDataHandler from "../dataAccess/componentsDataHandler";
 
 

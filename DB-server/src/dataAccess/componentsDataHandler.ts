@@ -1,5 +1,4 @@
 import {Memory, Storage, PrismaClient} from '@prisma/client';
-import { cpu } from '../../components/all';
 
 //"return await" still returns a promise which is not the final result, why?
 
