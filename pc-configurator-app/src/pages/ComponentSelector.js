@@ -21,14 +21,6 @@ function App() {
                         <TopBanner header={"PC configurator"}/>
                     </Col>
                 </Row>
-
-
-                <Row>
-                    <Col>
-                        <ComponentSelectedTable/>
-                    </Col>
-                </Row>
-
                 <Row>
                     <Col>
                         <ComponentSelector/>

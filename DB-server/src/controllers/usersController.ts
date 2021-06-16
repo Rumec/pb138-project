@@ -14,9 +14,9 @@ import * as usersDataHandler from "../dataAccess/usersDataHandler";
  */
 export async function register(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
     const data = req.body;
-    const username = data.login;//req.query.username as string;
-    const password = data.password;//req.query.password as string;
-    const passwordConfirm = data.passwordConfirm;//req.query.passwordConfirm as string;
+    const username = data.login as string;
+    const password = data.password as string;
+    const passwordConfirm = data.passwordConfirm as string;
 
     if (!username || !password || !passwordConfirm) {
         res.status(400).end();
@@ -51,8 +51,8 @@ export async function register(db: PrismaClient, req: express.Request, res: expr
 */
 export async function login(db: PrismaClient, req: express.Request, res: express.Response): Promise<any> {
     const data = req.body;
-    const username = data.login;//req.query.username as string;
-    const password = data.password//req.query.password as string;
+    const username = data.login as string;
+    const password = data.password as string;
 
     if (!username || !password) {
         res.status(400).end(); //Bad Request

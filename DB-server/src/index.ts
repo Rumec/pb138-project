@@ -80,6 +80,7 @@ app.use(bodyParser.json(), cors(), ...middlewares);
  * - query parameters e.g. /persons?name=searchedName&surname=searchedSurname
  *   - query parameters: name, surname
  *   - access via req.query.queryParamName
+ *   - NOTE: query parameters are not used by this REST API, data is taken from JSON body
  */
 
 
