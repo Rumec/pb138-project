@@ -47,9 +47,8 @@ export const LoginPage: React.FC = () => {
                     window.alert("Wrong user name or password");
                     return;
                 }
-                const isJson = response.headers.get('content-type')?.includes('application/json');
-                const userInformationFetched = isJson && await response.json();
-
+                //const isJson = response.headers.get('content-type')?.includes('application/json');
+                const userInformationFetched = await response.json();
                 if (userInformation.isLoading) {
                     // Setting global state
                     setUserInformation({isLoading: false, data: userInformationFetched});
@@ -59,8 +58,6 @@ export const LoginPage: React.FC = () => {
             .catch(err => {
                 window.alert('The was an error!\n' + err);
             });
-        console.log(userInformation);
-
     }
 
     return (

@@ -11,25 +11,24 @@ import {UserRegistration} from "../Components/UserRegistration/UserRegistration"
 function App() {
     return (
         <Container fluid={true}>
-            <RecoilRoot>
-                <Row>
-                    <Col>
-                        <TopMenu/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <TopBanner header={"PC configurator"}/>
-                    </Col>
-                </Row>
+            <Row>
+                <Col>
+                    <TopMenu/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <TopBanner header={"PC configurator"}/>
+                </Col>
+            </Row>
 
-                <Row>
-                    <Col>
-                       <LoginPage/>
-                    </Col>
-                </Row>
+            <Row>
+                <Col>
+                    <LoginPage/>
+                </Col>
+            </Row>
 
-                {/*
+            {/*
             <Row>
                 <Col>
 
@@ -41,7 +40,6 @@ function App() {
 <UserRegistration/>
             <ComputerTypeChooser/>
             */}
-            </RecoilRoot>
         </Container>
     );
 }

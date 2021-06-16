@@ -152,11 +152,6 @@ export const ShoppingCart: React.FC = () => {
                     Order
                 </Button>
 
-            {/* Přidat route zpět do konfigurátoru */}
-                <Button>
-                    Reconfigure
-                </Button>
-
         </div>
     )
 };

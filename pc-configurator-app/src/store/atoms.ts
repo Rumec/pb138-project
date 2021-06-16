@@ -94,6 +94,17 @@ interface IComponentSelectedTable {
     }
 }
 
+interface ICategory {
+    category: string
+}
+
+export const selectedCategoryState = atom<ICategory>( {
+    key: 'selectedCategory',
+    default: {
+        category: ''
+    }
+})
+
 /**
  * NOTE: Atom serves as global state
  */

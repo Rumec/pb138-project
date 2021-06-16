@@ -21,26 +21,6 @@ export const TopMenu: React.FC = () => {
                     <NavItem>
                         <NavLink href="/type" class="navBar__text">Home</NavLink>
                     </NavItem>
-                    <span className="navBar__text">|</span>
-                    <NavItem>
-                        <NavLink href="/specificCategory" class="navBar__text" >Office</NavLink>
-                    </NavItem>
-                    <span className="navBar__text">|</span>
-                    <NavItem>
-                        <NavLink href="/specificCategory" class="navBar__text">Gaming</NavLink>
-                    </NavItem>
-                    <span className="navBar__text">|</span>
-                    <NavItem>
-                        <NavLink href="/specificCategory" class="navBar__text">Working</NavLink>
-                    </NavItem>
-                    <span className="navBar__text">|</span>
-                    <NavItem>
-                        <NavLink href="/specificCategory" class="navBar__text">Highend</NavLink>
-                    </NavItem>
-                    <span className="navBar__text">|</span>
-                    <NavItem>
-                        <NavLink href="/ComponentSelector" class="navBar__text">Own Configuration</NavLink>
-                    </NavItem>
                 </Nav>
             </NavbarBrand>
             <Nav navbar>

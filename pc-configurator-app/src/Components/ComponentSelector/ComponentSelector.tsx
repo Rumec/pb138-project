@@ -6,7 +6,7 @@ import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelecte
 import {Table, Badge, Button} from 'reactstrap';
 import {useRecoilState} from "recoil";
 import {useHistory} from "react-router-dom";
-import {selectedPcPartsState, userState} from "../../store/atoms";
+import {selectedCategoryState, selectedPcPartsState, userState} from "../../store/atoms";
 import useSWR from "swr";
 
 const classes = new BEMHelper({
@@ -60,15 +60,14 @@ export const ComponentSelector: React.FC = () => {
     const history = useHistory();
     const [selectedPcParts, setSelectedPcParts] = useRecoilState(selectedPcPartsState);
     const [userInformation] = useRecoilState(userState);
-
-
+    const [selectedCategory] = useRecoilState(selectedCategoryState);
 
     const fetcher = (url: string) => {
         const loginData = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-User': '4'//userInformation.data.id.toString()
+                'X-User': userInformation.data.id.toString()
             },
         }
 
@@ -77,12 +76,12 @@ export const ComponentSelector: React.FC = () => {
     }
 
     // will be provided by routing
-    const category = '';
+    const category = selectedCategory.category;
     const {data, error} = useSWR(`http://localhost:5000/api/components/${category}`, fetcher);
 
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>loading...</div>;
-    console.log(data);
+
     /**
      * Handles change of dropdown and updates components state accordingly
      * @param event
@@ -112,7 +111,7 @@ export const ComponentSelector: React.FC = () => {
         return <DropdownPicker name={name} items={items} handleChange={handleChange}/>
     })
 
-    const buyItem = () => {
+    const buyItem = (event: any) => {
         let unselectedItems = '';
         const selectedItems = Object.entries(selectedPcParts).map(([name, values]) => {
             if (name === 'keyboard' || name === 'mouse' || name === 'monitor') {
@@ -129,7 +128,7 @@ export const ComponentSelector: React.FC = () => {
             window.alert('You need to select following items: ' + unselectedItems);
             return;
         }
-        // TODO - routa na košík
+        event.preventDefault();
         history.push('/ShoppingCart');
     }
 

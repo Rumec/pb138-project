@@ -10,23 +10,21 @@ import {RecoilRoot} from "recoil";
 function App() {
     return (
         <Container fluid={true}>
-            <RecoilRoot>
-                <Row>
-                    <Col>
-                        <TopMenu/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <TopBanner header={"PC configurator"}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <ComponentSelector/>
-                    </Col>
-                </Row>
-            </RecoilRoot>
+            <Row>
+                <Col>
+                    <TopMenu/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <TopBanner header={"PC configurator"}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <ComponentSelector/>
+                </Col>
+            </Row>
         </Container>
     );
 }

@@ -8,23 +8,21 @@ import {UserRegistration} from "../Components/UserRegistration/UserRegistration"
 function App() {
     return (
         <Container fluid={true}>
-            <RecoilRoot>
-                <Row>
-                    <Col>
-                        <TopMenu/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <TopBanner header={"PC configurator"}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <UserRegistration/>
-                    </Col>
-                </Row>
-            </RecoilRoot>
+            <Row>
+                <Col>
+                    <TopMenu/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <TopBanner header={"PC configurator"}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <UserRegistration/>
+                </Col>
+            </Row>
         </Container>
     );
 }
