@@ -3,7 +3,15 @@ import {atom} from "recoil";
 interface IDataLoaded {
     // Preventing endless loading
     isLoading: boolean,
-    data: {}
+    data: {
+        id: number,
+        name: string,
+        user_name: string,
+        salt: string,
+        algorithm: string,
+        password_hash: string,
+        deleted: boolean
+    }
 }
 
 interface IComponentSelectedTable {
@@ -66,7 +74,15 @@ export const userState = atom<IDataLoaded>({
     key: 'userInformation',
     default: {
         isLoading: true,
-        data: {}
+        data: {
+            id: -1,
+            name: "",
+            user_name: "",
+            salt: "",
+            algorithm: "",
+            password_hash: "",
+            deleted: false
+        }
     }
 });
 

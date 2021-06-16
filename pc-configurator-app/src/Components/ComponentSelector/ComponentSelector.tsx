@@ -3,10 +3,9 @@ import './ComputerSelector.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BEMHelper from 'react-bem-helper';
 import {ComponentSelectedTable} from "../ComponentSelectedTable/ComponentSelectedTable";
-import {Table, Badge} from 'reactstrap';
+import {Table, Badge, Button} from 'reactstrap';
 import {useRecoilState} from "recoil";
-import {selectedPcPartsState} from "../../store/atoms";
-import fetcher from "../../utils/fetcher";
+import {selectedPcPartsState, userState} from "../../store/atoms";
 import useSWR from "swr";
 
 const classes = new BEMHelper({
@@ -55,163 +54,26 @@ const DropdownPicker: React.FC<IPokusProps> = (props: IPokusProps) => {
     )
 }
 
-// TODO: komponenta jako picker komponent počítače, počítání ceny sestavy a "odškrtávání" vybraných
-//      komponent v tabulce
 
-export const ComponentSelector: React.FC = () => {
-    // TODO: toto se bude tahat z DB
-    // JSON má pro každou kategorii seznam komponent - ten se natáhne přes findMany z DB
-    // Pozn: Z DB můžeme vracet i celý JSON, musí však mít smluvený formát - důležité je ID komponenty
-    //      její název a cena - z toho se udělá popisek a vypočte celková cena -> ID je důležité pro
-    //      sestavení objednávky - příslušné komponenty se pak natahají z DB podle toho id
-
-    // const data = {
-    //     cpu: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "Intel",
-    //             name: "i7 9700k",
-    //             price: 500
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "AMD",
-    //             name: "Ryzen 5 5600X",
-    //             price: 460
-    //         },
-    //     ],
-    //     motherboard: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "Asus",
-    //             name: "P3X 927",
-    //             price: 399
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Gigabyte",
-    //             name: "R7X Blabla",
-    //             price: 281
-    //         },
-    //     ],
-    //     ram: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "Intel",
-    //             name: "i7 9700k",
-    //             price: 500
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "AMD",
-    //             name: "Ryzen 5 5600X",
-    //             price: 460
-    //         },
-    //     ],
-    //     disk: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "WD",
-    //             name: "Red",
-    //             price: 99
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Seagate",
-    //             name: "Barracuda",
-    //             price: 119
-    //         },
-    //     ],
-    //     gpu: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "NVidia",
-    //             name: "RTX 3090",
-    //             price: 1600
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "AMD",
-    //             name: "Radeon 5600XT",
-    //             price: 800
-    //         },
-    //     ],
-    //     psu: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "Fortron",
-    //             name: "XY",
-    //             price: 159
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Seasonic",
-    //             name: "YX",
-    //             price: 259
-    //         },
-    //     ],
-    //     case: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "WD",
-    //             name: "Red",
-    //             price: 99
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Seagate",
-    //             name: "Barracuda",
-    //             price: 119
-    //         },
-    //     ],
-    //     monitor: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "AOC",
-    //             name: "32U14",
-    //             price: 499
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Dell",
-    //             name: "UltraSharp",
-    //             price: 699
-    //         },
-    //     ],
-    //     keyboard: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "Logitech",
-    //             name: "Some shitty keyboard",
-    //             price: 19
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Asus",
-    //             name: "E-waste",
-    //             price: 25
-    //         },
-    //     ],
-    //     mouse: [
-    //         {
-    //             id: 1,
-    //             manufacturer: "C-Tech",
-    //             name: "Piece of crap",
-    //             price: 29
-    //         },
-    //         {
-    //             id: 2,
-    //             manufacturer: "Logitech",
-    //             name: "Dogshit",
-    //             price: 9
-    //         },
-    //     ],
-    // }
-
+export const ComponentSelector: React.FC = (url) => {
     const [selectedPcParts, setSelectedPcParts] = useRecoilState(selectedPcPartsState);
+    const [userInformation] = useRecoilState(userState);
+
+    const fetcher = (url: string) => {
+        const loginData = {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-User': '4'//userInformation.data.id.toString()
+            },
+        }
+
+        return fetch(url, loginData)
+            .then(response => response.json());
+    }
 
     // will be provided by routing
-    const category = 'gaming';
+    const category = '';
     const {data, error} = useSWR(`http://localhost:5000/api/components/${category}`, fetcher);
 
     if (error) return <div>Failed to load</div>;
@@ -241,22 +103,42 @@ export const ComponentSelector: React.FC = () => {
             console.log(selectedPcParts);
         }
 
-    // Ugly solution - TODO: Find better
     // @ts-ignore
     const componentPickers = Object.entries(data).map(([name, items]) => {
+        console.log(data);
         // @ts-ignore
         return <DropdownPicker name={name} items={items} handleChange={handleChange}/>
     })
 
+    const buyItem = () => {
+        let unselectedItems = '';
+        const selectedItems = Object.entries(selectedPcParts).map(([name, values]) => {
+            if (name === 'keyboard' || name === 'mouse' || name === 'monitor') {
+                return true;
+            } else if (values.id === -1) {
+                unselectedItems += name + ', ';
+                return false;
+            }
+            return true;
+        });
+        console.log(selectedItems);
+        const result = selectedItems.reduce((sum, next) => sum && next, true);
+
+        if(!result) {
+            window.alert('You need to select following items: ' + unselectedItems);
+            return;
+        }
+        // TODO - routa na košík
+    }
+
     return (
         <div {...classes()}>
             <ComponentSelectedTable/>
-            {/*TODO: asi vlastní komponenta? */}
             <Table>
                 <tbody>
-                {/*TODO sort pickerů*/}
                 <tr>{componentPickers.sort()}
                     <td></td>
+                    <td/>
                 </tr>
                 <tr>
                     {Object.entries(selectedPcParts).map(([name, values]) => {
@@ -268,9 +150,17 @@ export const ComponentSelector: React.FC = () => {
                             return values.price;
                         }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
                     </td>
+                    <td>
+                        <Button
+                            onClick={buyItem}
+                        >
+                            Buy
+                        </Button>
+                    </td>
                 </tr>
                 </tbody>
             </Table>
+
         </div>
     )
 };
