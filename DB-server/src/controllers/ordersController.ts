@@ -128,10 +128,6 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
     const ramId = data.ram.id as number;
     const diskId = data.disk.id as number;
 
-    const keyboardId = data.keyboard.id as number;
-    const mouseId = data.mouse.id as number;
-    const screenId = data.monitor.id as number; //note: "monitor" in the input JSON data instead of "screen"
-
     if (!cpuId || !caseId || !gpuId || !motherboardId || !psuId || !ramId || !diskId) {
         res.statusMessage = "A required component ID is missing.";
         res.status(400).end();
@@ -147,6 +143,12 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
         return;
     }
 
+
+
+    let keyboardId = data.keyboard.id as number | null;
+    let mouseId = data.mouse.id as number | null;
+    let screenId = data.monitor.id as number | null; //note: "monitor" in the input JSON data instead of "screen"
+
     //calculate total order price (add optional components prices)
     let totalOrderPrice = totalComptuterPrice;
     if(data.keyboard.price as number){
@@ -158,6 +160,19 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
     if(data.mouse.price as number){
         totalOrderPrice += +data.mouse.price;
     }
+
+    //start hack: this has to be done because the front-end requires that it is sent in this format (if not selected then id = -1) 
+    if(keyboardId == -1){
+        keyboardId = null; //note: it is required that the price is 0 for item id = -1
+    }
+    if(mouseId == -1){
+        mouseId = null; //note: it is required that the price is 0 for item id = -1
+    }
+    if(screenId == -1){
+        screenId = null; 
+    }
+    //end hack
+
 
     let order : Order;
     try{
