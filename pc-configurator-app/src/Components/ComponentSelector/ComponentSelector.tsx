@@ -109,7 +109,7 @@ export const ComponentSelector: React.FC = () => {
     const componentPickers = Object.entries(data).map(([name, items]) => {
         // @ts-ignore
         return <DropdownPicker name={name} items={items} handleChange={handleChange}/>
-    })
+    });
 
     const buyItem = (event: any) => {
         let unselectedItems = '';
