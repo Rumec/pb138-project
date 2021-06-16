@@ -7,6 +7,7 @@ import {Container, Row, Col} from 'reactstrap';
 import {LoginPage} from "../Components/LoginPage/LoginPage";
 import {RecoilRoot} from "recoil";
 import {UserRegistration} from "../Components/UserRegistration/UserRegistration";
+import "./padding.css"
 
 function App() {
     return (

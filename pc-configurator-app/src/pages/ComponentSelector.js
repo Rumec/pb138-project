@@ -5,7 +5,7 @@ import {ComponentSelector} from "../Components/ComponentSelector/ComponentSelect
 import {ComponentSelectedTable} from "../Components/ComponentSelectedTable/ComponentSelectedTable"
 import {Container, Row, Col} from 'reactstrap';
 import {RecoilRoot} from "recoil";
-
+import "./padding.css"
 
 function App() {
     return (

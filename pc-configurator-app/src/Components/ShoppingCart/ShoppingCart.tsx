@@ -12,8 +12,8 @@ const classes = new BEMHelper({
 
 const PcPart = (props: any) => {
     return (
-        <Col>
-            <Row>{props.type}: </Row>
+        <Col className="shopping__table">
+            <Row className="shopping-name">{props.type}: </Row>
             <Row>{props.manufacturer} {props.name}</Row>
             <Row>{props.mainParameter}</Row>
             <Row>{props.secondaryParameter}</Row>
@@ -147,7 +147,7 @@ export const ShoppingCart: React.FC = () => {
             }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
 
                 <Button
-                    onClick={orderComputer}
+                    onClick={orderComputer} className="shopping__order"
                 >
                     Order
                 </Button>

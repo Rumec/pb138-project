@@ -4,6 +4,7 @@ import {TopBanner} from "../Components/TopBanner/TopBanner";
 import {ComputerType} from "../Components/ComputerType/ComputerType";
 import {Container, Row, Col} from 'reactstrap';
 import {RecoilRoot} from "recoil";
+import "./padding.css"
 
 function App() {
     return (

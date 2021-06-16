@@ -5,6 +5,7 @@ import {Container, Row, Col} from 'reactstrap';
 import {RecoilRoot} from "recoil";
 import {UserRegistration} from "../Components/UserRegistration/UserRegistration";
 import {ShoppingCart} from "../Components/ShoppingCart/ShoppingCart";
+import "./padding.css"
 
 function App() {
     return (

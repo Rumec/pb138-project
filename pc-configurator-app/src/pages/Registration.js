@@ -4,6 +4,7 @@ import {TopBanner} from "../Components/TopBanner/TopBanner";
 import {Container, Row, Col} from 'reactstrap';
 import {RecoilRoot} from "recoil";
 import {UserRegistration} from "../Components/UserRegistration/UserRegistration";
+import "./padding.css"
 
 function App() {
     return (

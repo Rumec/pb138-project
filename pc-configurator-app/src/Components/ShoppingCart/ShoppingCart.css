@@ -1,12 +1,35 @@
 .shopping-cart {
     display: grid;
-    grid-template-columns: 8rem 8rem 8rem 8rem;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 10rem 10rem 10rem 10rem 10rem 10rem 10rem;
+    grid-template-rows: 1fr 1fr;
     grid-gap: 1rem;
 
-    align-items: center;
+    align-items: top;
     justify-content: center;
 
     margin: 3rem 1rem 3rem 1rem;
     padding: 1rem;
+}
+
+.shopping__table{
+    padding: 1rem 2rem 1rem 2rem;
+    background-color: whitesmoke;
+    border-radius: 0.5rem;
+}
+
+.shopping-name{
+    justify-content: center;
+    align-self: top;
+    font-weight: bold;
+    color: var(--background-blue);
+}
+
+.shopping__row{
+    display: flex;
+    flex-grow: 1;
+    background-color: aquamarine;
+}
+
+.shopping__order{
+    max-height: 3rem;
 }

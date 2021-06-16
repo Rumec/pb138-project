@@ -18,6 +18,10 @@
     padding-left: 7rem;
 }
 
+Col{
+    padding: 0;
+}
+
 .top-banner__header {
 }
 
