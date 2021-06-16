@@ -12,6 +12,19 @@
 
 .nav-link{
     color: #ffffff;
+    
+}
+
+.btn-secondary{
+    background-color: none;
+}
+
+.btn{
+    padding: 5rem;
+}
+
+.nav-link:not(:disabled):not(.disabled){
+    cursor: pointer;
 }
 
 .navBar__text{
