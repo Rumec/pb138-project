@@ -12,7 +12,7 @@ const classes = new BEMHelper({
     name: 'component-selector',
 });
 
-interface IPokusProps {
+interface IComponentSelectorProps {
     name: string,
     items: {
         id: number,
@@ -29,7 +29,7 @@ interface IPokusProps {
  * @param props - info about parts at stock
  */
 //TODO: naparsovat na reactstrap
-const DropdownPicker: React.FC<IPokusProps> = (props: IPokusProps) => {
+const DropdownPicker: React.FC<IComponentSelectorProps> = (props: IComponentSelectorProps) => {
     return (
         <td>
             <select className="theme-style" name={props.name} onChange={props.handleChange}>
@@ -55,7 +55,7 @@ const DropdownPicker: React.FC<IPokusProps> = (props: IPokusProps) => {
 }
 
 
-export const ComponentSelector: React.FC = (url) => {
+export const ComponentSelector: React.FC = () => {
     const [selectedPcParts, setSelectedPcParts] = useRecoilState(selectedPcPartsState);
     const [userInformation] = useRecoilState(userState);
 
@@ -64,7 +64,7 @@ export const ComponentSelector: React.FC = (url) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'X-User': '4'//userInformation.data.id.toString()
+                'X-User': userInformation.data.id.toString()
             },
         }
 
