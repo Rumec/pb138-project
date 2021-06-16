@@ -22,6 +22,7 @@ const Order = (props: any) => {
 
 export const OrderHistory: React.FC = () => {
     const [userInformation] = useRecoilState(userState);
+    console.log(userInformation);
 
     const fetcher = (url: string) => {
         const loginData = {
@@ -37,7 +38,7 @@ export const OrderHistory: React.FC = () => {
     }
 
     const {data, error} = useSWR(`http://localhost:5000/api/orders`, fetcher);
-
+    console.log(data);
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>loading...</div>;
 

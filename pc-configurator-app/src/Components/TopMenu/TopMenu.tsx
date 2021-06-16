@@ -1,6 +1,8 @@
 import React from 'react';
 import './TopMenu.css';
 import BEMHelper from 'react-bem-helper';
+import {useHistory} from "react-router-dom";
+
 import {
     Navbar,
     Nav,
@@ -14,26 +16,27 @@ const classes = new BEMHelper({
 });
 
 export const TopMenu: React.FC = () => {
+    const history = useHistory();
     return (
         <Navbar {...classes()} expand="md">
             <NavbarBrand className="mr-auto">
                 <Nav navbar>
                     <NavItem>
-                        <NavLink href="/type" class="navBar__text">Home</NavLink>
+                        <NavLink onClick={() => {history.push("/type")}} class="navBar__text">Home</NavLink>
                     </NavItem>
                 </Nav>
             </NavbarBrand>
             <Nav navbar>
                 <NavItem>
-                    <NavLink href="/history" class="navBar__text">Order History</NavLink>
+                    <NavLink onClick={() => {history.push("/History")}} class="navBar__text">Order History</NavLink>
                 </NavItem>
                 <span className="navBar__text">|</span>
                 <NavItem>
-                    <NavLink href="/login" class="navBar__text">Login</NavLink>
+                    <NavLink onClick={() => {history.push("/login")}} class="navBar__text">Login</NavLink>
                 </NavItem>
                 <span className="navBar__text">|</span>
                 <NavItem>
-                    <NavLink href="/register" class="navBar__text">Register</NavLink>
+                    <NavLink onClick={() => {history.push("/register")}} class="navBar__text">Register</NavLink>
                 </NavItem>
             </Nav>
         </Navbar>
