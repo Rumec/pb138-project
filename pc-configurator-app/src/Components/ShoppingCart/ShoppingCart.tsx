@@ -146,11 +146,17 @@ export const ShoppingCart: React.FC = () => {
                 return values.price;
             }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
 
-            <Button
-                onClick={orderComputer}
-            >
-                Order
-            </Button>
+                <Button
+                    onClick={orderComputer}
+                >
+                    Order
+                </Button>
+
+            {/* Přidat route zpět do konfigurátoru */}
+                <Button>
+                    Reconfigure
+                </Button>
+
         </div>
     )
 };
