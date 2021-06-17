@@ -5,6 +5,7 @@ import BEMHelper from 'react-bem-helper';
 import {Table, Badge, Button, Row, Col} from 'reactstrap';
 import {useRecoilState} from "recoil";
 import {selectedPcPartsState, userState} from "../../store/atoms";
+import { useHistory } from "react-router-dom";
 
 const classes = new BEMHelper({
     name: 'shopping-cart',
@@ -26,6 +27,7 @@ const PcPart = (props: any) => {
 export const ShoppingCart: React.FC = () => {
     const [selectedPcParts] = useRecoilState(selectedPcPartsState);
     const [userInformation] = useRecoilState(userState);
+    let history = useHistory();
 
     const orderComputer = () => {
         const loginData = {
@@ -47,6 +49,7 @@ export const ShoppingCart: React.FC = () => {
             .catch(err => {
                 window.alert('The was an error!\n' + err);
             });
+            history.push('/history');
     }
 
     return (
