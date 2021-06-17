@@ -153,7 +153,7 @@ export const ShoppingCart: React.FC = () => {
             }).reduce((cumulate, val) => cumulate + val, 0)} €</Badge></h3>
 
                 <Button
-                    onClick={orderComputer} className="order__history"
+                    onClick={orderComputer} className="shopping__order"
                 >
                     Order
                 </Button>
