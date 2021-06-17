@@ -50,6 +50,7 @@ export const ShoppingCart: React.FC = () => {
                 window.alert('The was an error!\n' + err);
             });
             history.push('/history');
+        
     }
 
     return (
