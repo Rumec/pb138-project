@@ -232,13 +232,13 @@ function getTotalComputerPrice(data: any): number {
     else {
         throw new Error("disk price not provided");
     }
-    if (data.mouse.price as number) {
+    if (data.mouse.id != -1) {
         totalPrice += data.mouse.price;
     }
-    if (data.screen.price as number) {
-        totalPrice += data.screen.price;
+    if (data.monitor.id != -1) {
+        totalPrice += data.monitor.price;
     }
-    if (data.keyboard.price as number) {
+    if (data.keyboard.id != -1) {
         totalPrice += data.keyboard.price;
     }
 
