@@ -3,8 +3,8 @@ import './ShoppingCart.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import BEMHelper from 'react-bem-helper';
 import {Table, Badge, Button, Row, Col} from 'reactstrap';
-import {useRecoilState} from "recoil";
-import {selectedPcPartsState, userState} from "../../store/atoms";
+import {useRecoilState, useResetRecoilState} from "recoil";
+import {selectedPcPartsState, userState, defaultPcParts} from "../../store/atoms";
 import { useHistory } from "react-router-dom";
 
 const classes = new BEMHelper({
@@ -45,6 +45,8 @@ export const ShoppingCart: React.FC = () => {
                     window.alert("Unsuccessful order!");
                     return;
                 }
+                // Resetting selected pc part to it's default value
+                setSelectedPC(defaultPcParts);
             })
             .catch(err => {
                 window.alert('The was an error!\n' + err);

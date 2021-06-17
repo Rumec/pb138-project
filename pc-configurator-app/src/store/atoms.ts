@@ -124,6 +124,88 @@ export const userState = atom<IDataLoaded>({
     }
 });
 
+
+export const defaultPcParts = {
+
+    cpu: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        frequency: 0,
+        core_count: 0,
+        cache: 0,
+        price: 0
+    },
+    motherboard: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        interface: "",
+        price: 0
+    },
+    ram: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        type: "",
+        capacity: 0,
+        frequency: 0,
+        price: 0
+    },
+    disk: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        interface: "",
+        capacity: 0,
+        price: 0
+    },
+    gpu: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        core_freq: 0,
+        mem_freq: 0,
+        mem_capacity: 0,
+        price: 0
+    },
+    psu: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        power: 0,
+        price: 0
+    },
+    case: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        format: "",
+        price: 0
+    },
+    monitor: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        interface: "",
+        price: 0
+    },
+    keyboard: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        interface: "",
+        price: 0
+    },
+    mouse: {
+        id: -1,
+        name: "",
+        manufacturer: "",
+        interface: "",
+        price: 0
+    },
+}
+
 /**
  * I know the default state is ugly but I could come up with better
  * Object of selected component
@@ -131,85 +213,6 @@ export const userState = atom<IDataLoaded>({
  */
 export const selectedPcPartsState = atom<IComponentSelectedTable>({
     key: 'selectedPcParts',
-    default: {
-
-        cpu: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            frequency: 0,
-            core_count: 0,
-            cache: 0,
-            price: 0
-        },
-        motherboard: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            interface: "",
-            price: 0
-        },
-        ram: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            type: "",
-            capacity: 0,
-            frequency: 0,
-            price: 0
-        },
-        disk: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            interface: "",
-            capacity: 0,
-            price: 0
-        },
-        gpu: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            core_freq: 0,
-            mem_freq: 0,
-            mem_capacity: 0,
-            price: 0
-        },
-        psu: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            power: 0,
-            price: 0
-        },
-        case: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            format: "",
-            price: 0
-        },
-        monitor: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            interface: "",
-            price: 0
-        },
-        keyboard: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            interface: "",
-            price: 0
-        },
-        mouse: {
-            id: -1,
-            name: "",
-            manufacturer: "",
-            interface: "",
-            price: 0
-        },
-    }
+    default: defaultPcParts
 });
 
