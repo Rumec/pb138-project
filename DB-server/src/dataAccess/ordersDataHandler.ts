@@ -4,7 +4,7 @@ import { Order, PrismaClient } from '@prisma/client';
  * Gets all orders for specified user by user id
  * Default ordering: by id descending
  */
-export async function getByUser(db: PrismaClient, userId: number): Promise<any[]> {
+export async function getByUser(db: PrismaClient, userId: number): Promise<Order[]> {
     return db.order.findMany({
         where: {
             user_id: userId
@@ -20,7 +20,7 @@ export async function getByUser(db: PrismaClient, userId: number): Promise<any[]
  * Takes only top n
  * Default ordering: by id descending
  */
-export async function getByUserTakeN(db: PrismaClient, userId: number, amount: number): Promise<any[]> {
+export async function getByUserTakeN(db: PrismaClient, userId: number, amount: number): Promise<Order[]> {
     return db.order.findMany({
         where: {
             user_id: userId
@@ -91,7 +91,7 @@ export async function getWithComponentsExceptComputer(db: PrismaClient, id: numb
  * @param totalPrice required
  * @returns 
  */
-export async function createNewWithoutComputer(db: PrismaClient,
+export function createNewWithoutComputer(db: PrismaClient,
     userId: number, mouseId: number | null, keyboardId: number | null, screenId: number | null,
      totalPrice: number): Promise<Order> {
     const newOrderData = {
