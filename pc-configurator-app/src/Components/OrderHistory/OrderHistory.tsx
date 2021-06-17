@@ -8,14 +8,15 @@ import {selectedPcPartsState, userState} from "../../store/atoms";
 import useSWR from "swr";
 
 const classes = new BEMHelper({
-    name: 'shopping-cart',
+    name: 'order__history',
 });
 
 const Order = (props: any) => {
     return (
-        <Col>
-            <Row>Order: {props.id}</Row>
-            <Row>Price: {props.price} €</Row>
+        <Col className="order__element">
+            <Row className="order__row">Order: {props.id}</Row>
+            <Row className="order__row">Price: {props.price} €</Row>
+            
         </Col>
     )
 }
