@@ -121,7 +121,7 @@ app.put("/api/orders/:id", async (req, res) => orders.setCancelled(prisma, req, 
 app.get("/api/orders/:id", async (req, res) => orders.getWithComponents(prisma, req, res));
 
 //create a new order (in fact returns order for recap, too)
-app.post("/api/orders", async (req, res) => orders.createNew(prisma, req, res));
+app.post("/api/orders", (req, res) => orders.createNew(prisma, req, res));
 
 
 /**

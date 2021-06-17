@@ -5,7 +5,6 @@ import * as computersDataHandler from "../dataAccess/computersDataHandler";
 
 
 /**
- * NOT TESTED
  * Loads all orders of current user or only specific number of latest orders if JSON body attribute orderCount is provided.
  * Requires that 
  * Handles HTTP GET method on route: /api/orders with JSON object with "orderCount" attribute
@@ -16,16 +15,15 @@ export async function getForCurrentUser(db: PrismaClient, req: express.Request, 
 
     if (req.body.orderCount) {
         let amount = +req.body.orderCount;
-        orders = ordersDataHandler.getByUserTakeN(db, userId, amount);
+        orders = await ordersDataHandler.getByUserTakeN(db, userId, amount);
     } else {
-        orders = ordersDataHandler.getByUser(db, userId);
+        orders = await ordersDataHandler.getByUser(db, userId);
     }
 
     res.send(JSON.stringify(orders));
 }
 
 /**
- * NOT TESTED
 * Changes order state to cancelled
 * If the order is not found, returns 404 Not Found
 * If the order does not belong to current user, then 403 Forbidden
@@ -61,7 +59,6 @@ export async function setCancelled(db: PrismaClient, req: express.Request, res: 
 
 
 /**
- * NOT TESTED
 * Loads an order with components and computer with internal components included
 * Intended use is for order recapitulation
 * If the order is not found, returns 404 Not Found
@@ -101,12 +98,9 @@ export async function getWithComponents(db: PrismaClient, req: express.Request, 
 }
 
 /**
- * NOT TESTED
 * Creates a new order using given components (cpu, ram, psu, gpu, disk, motherboard, case) and optional (keyboard, mouse, monitor)
 * A new computer is created internally which is then added to the order as a holder of the components
-* TODO: if there is an error with referential integrity in the data access layer (invalid id was passed to the request), 
-then returns 400 Bad Request
-* 
+
 * Handles HTTP POST method on route: /api/orders
 * Required input data format:
 * JSON body with all internal computer components is required (otherwise 400 Bad Request)
@@ -118,7 +112,7 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
     if (!data.cpu || !data.case || !data.gpu || !data.motherboard || !data.psu || !data.ram || !data.disk) {
         res.statusMessage = "A required component is missing.";
         res.status(400).end();
-        return;
+        return null;
     }
     const cpuId = data.cpu.id as number;
     const caseId = data.case.id as number;
@@ -131,7 +125,7 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
     if (!cpuId || !caseId || !gpuId || !motherboardId || !psuId || !ramId || !diskId) {
         res.statusMessage = "A required component ID is missing.";
         res.status(400).end();
-        return;
+        return null;
     }
 
     let totalComptuterPrice: number;
@@ -140,7 +134,7 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
     } catch (e){ //.price attributes are missing in JSON
         res.statusMessage = "Could not calculate total computer price, reason (invalid data format): " + e.message;
         res.status(400).end();
-        return;
+        return null;
     }
 
 
@@ -178,17 +172,19 @@ export async function createNew(db: PrismaClient, req: express.Request, res: exp
     try{
         //create order without computer
         order = await ordersDataHandler.createNewWithoutComputer(db, userId, mouseId, keyboardId, screenId, totalComptuterPrice);
+        console.log("newly created order id: " + order.id);
         //create computer and assign to order
         await computersDataHandler.createNew(db, order.id, "boobs", totalOrderPrice, cpuId, gpuId, ramId, motherboardId, diskId, psuId, caseId);
     } catch (e){
         console.log(e);
         res.statusMessage = "Order was not created. DB integrity would be broken.";
         res.status(400).end();
-        return;
+        return null;
     }
-    return ordersDataHandler.get(db, order.id); //load fresh with computer and inner components included 
 
-
+    const orderExtendable: any = order as any;
+    (orderExtendable)["computers"] = await computersDataHandler.getAllWithComponents(db, order.id); //db call #3 for computer and its parts
+    res.send(JSON.stringify(orderExtendable));
 }
 
 function getTotalComputerPrice(data: any): number {
