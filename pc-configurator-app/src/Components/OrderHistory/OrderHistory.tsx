@@ -42,11 +42,11 @@ export const OrderHistory: React.FC = () => {
     if (error) return <div>Failed to load</div>;
     if (!data) return <div>loading...</div>;
 
-    const pastOrders = Object.entries(data).map(order => {
+    const pastOrders = Object.entries(data).map(([key, order]) => {
         // @ts-ignore
-        return <Order id={order.id} price={order.price}/>
+        return <Order id={order.id} price={order.total_price}/>
     });
-
+    console.log(pastOrders);
 
     return (
         <div {...classes()}>
