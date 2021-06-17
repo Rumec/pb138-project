@@ -24,7 +24,7 @@ const PcPart = (props: any) => {
 }
 
 export const ShoppingCart: React.FC = () => {
-    const [selectedPcParts] = useRecoilState(selectedPcPartsState);
+    const [selectedPcParts, setSelectedPC] = useRecoilState(selectedPcPartsState);
     const [userInformation] = useRecoilState(userState);
 
     const orderComputer = () => {
