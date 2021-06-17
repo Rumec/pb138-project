@@ -105,23 +105,25 @@ export const selectedCategoryState = atom<ICategory>( {
     }
 })
 
+export const defaultUserState = {
+    isLoading: true,
+    data: {
+        id: -1,
+        name: "",
+        user_name: "",
+        salt: "",
+        algorithm: "",
+        password_hash: "",
+        deleted: false
+    }
+}
+
 /**
  * NOTE: Atom serves as global state
  */
 export const userState = atom<IDataLoaded>({
     key: 'userInformation',
-    default: {
-        isLoading: true,
-        data: {
-            id: -1,
-            name: "",
-            user_name: "",
-            salt: "",
-            algorithm: "",
-            password_hash: "",
-            deleted: false
-        }
-    }
+    default: defaultUserState
 });
 
 
